@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<title>∆TicTacToe©®∆</title>
+
+<head>
+    <!-- Set the default charset and width of screen -->
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
+    <style type='text/css'>
+        /* Setup some variables for our grid */
+        :root {
+            --board-rows: 3;
+            --board-cols: 3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 16pt;
+            box-sizing: border-box;
+        }
+
+        body.formattedBody {
+            width: 100vw;
+            height: 100vh;
+
+            min-width: 250px;
+            min-height: 250px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        div.board {
+            background-color: black;
+            margin-bottom: 10%;
+            min-width: 80%;
+            min-height: 80%;
+            flex-basis: 80%;
+            flex-grow: 1;
+
+            display: grid;
+            grid-gap: 0.35em;
+            grid-template-rows: repeat(var(--board-rows), 1fr);
+            grid-template-columns: repeat(var(--board-cols), 1fr);
+        }
+
+        div.button {
+            background-color: white;
+            min-height: 100%;
+            min-width: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        div.button:hover {
+            background-color: red;
+        }
+
+        div.header {
+            width: 100%;
+
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 1em;
+
+        }
+
+        div.title {
+            font-weight: bold;
+        }
+
+        div#reset {
+            background-color: grey;
+            color: black;
+            padding: 0.5em;
+            visibility: hidden;
+
+        }
+
+        div#reset:hover {
+            background-color: lightgreen;
+            color: black;
+        }
+
+        /*
+             * TODO: Add a CSS for the reset button.
+             * It must start invisible
+             * Add some padding and a board to make it look like a button
+             */
+
+        /*
+             * TODO: Add a CSS for hovering on the reset button
+             * Change the background-color to show selection
+             */
+    </style>
+</head>
+
+<body class='formattedBody'>
+    <div class='header'>
+        <div class='title'>Tic Tac Toe</div>
+        <div id='status'>X's Turn</div>
+
+        <!--TODO: Add a div here with an ID of reset... This is the reset button -->
+        <div id='reset'>Reset </div>
+    </div>
+    <div class='board'>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+        <div class='button'></div>
+    </div>
+
+    <script type='text/javascript'>
+        const numRows = 3;
+
+        /*********************************
+         * Model/Logic
+         ********************************/
+
+        /**
+         *  The logical spaces on the board arranged from top-to-bottom, left-to-right
+         *  For example, in a 3x3 board, the array is:
+         *      -------------
+         *      | 0 | 1 | 2 |
+         *      -------------
+         *      | 3 | 4 | 5 |
+         *      -------------
+         *      | 6 | 7 | 8 |
+         *      -------------
+         */
+        let board = [];
+        let turn = 1; //  X = 1, O = -1
+        let gameOver = false
+
+        // Model (Logic) 
+        /**
+         * Attempts to make a move on the logical board
+         * @return  true if the move if valid, false otherwise
+         * 
+         * spot - the integer location to make a move
+         */
+
+        function makeMove(spot) {
+            if (spot < 0 || spot > board.length) {
+                return false;
+            }
+
+            if (board[spot] == 1 || (board[spot] == -1)) {
+                return false;
+            }
+            board[spot] = turn
+            turn *= -1
+        }
+
+        /**
+         * Which player is in the spot
+         * @param spot Which spot to look at
+         * @return the owner of the spot, empty string for none, null for error
+         */
+        function whoseSpot(spot) {
+            if (spot < 0 || spot >= board.length) {
+                return null;
+            }
+
+            let player = "";
+            if (board[spot] === 1) {
+                player = "X";
+            } else if (board[spot] === -1) {
+                player = "O";
+            }
+            return player;
+        }
+
+        /**
+         * Which player's turn is it as a String
+         * @return "X" or "O"
+         */
+        function whoseTurn() {
+            let player = "X";
+            if (turn === -1) {
+                player = "O";
+            }
+            return player;
+        }
+        /**
+         * Checks for a winner on the current board
+         * @return Winner ('X' or 'O') or 'TIE' or empty string if there's no winner
+         */
+        function checkWinner() {
+            /*Rows*/
+            let row = 0;
+            while (row < 3) {
+                let sum = 0;
+                let spot = row * 3;
+                while (spot <= 3 * row + 2) {
+                    sum = board[spot] + sum;
+                    spot = spot + 1;
+                }
+                if (sum == 3) {
+                    gameOver = true;
+                    return 'X'
+                } else if (sum == -3) {
+                    gameOver = true;
+                    return 'O'
+                }
+                row++;
+            }
+            /*Columns*/
+            let column = 0;
+            while (column < 3) {
+                spot = column;
+                let sum = 0;
+                while (spot <= column + 6) {
+                    sum = board[spot] + sum;
+                    spot = spot + 3;
+                }
+                if (sum == 3) {
+                    gameOver = true;
+                    return 'X'
+                }
+                if (sum == -3) {
+                    gameOver = true;
+                    return 'O'
+                }
+                column++;
+            }
+
+            /*Diagonal*/
+            let diagonal1 = 0;
+
+            while (diagonal1 < 3) {
+                let sum = 0;
+                let spot = 0;
+                while (spot <= 8) {
+                    sum = board[spot] + sum;
+                    spot = spot + 4;
+                }
+
+                if (sum == 3) {
+                    gameOver = true;
+                    return 'X'
+                } else if (sum == -3) {
+                    gameOver = true;
+                    return 'O'
+                }
+                diagonal1++;
+            }
+
+            let diagonal2 = 0;
+
+            while (diagonal2 < 3) {
+                let sum = 0;
+                let spot = 2;
+                while (spot <= 6) {
+                    sum = board[spot] + sum;
+                    spot = spot + 2;
+                }
+
+                if (sum == 3) {
+                    gameOver = true;
+                    return 'X'
+                } else if (sum == -3) {
+                    gameOver = true;
+                    return 'O'
+                }
+                diagonal2++;
+            }
+            let tie = 0;
+            while (tie <= 8) {
+                if (board[tie] == 0) {
+                    return ''
+                }
+                tie++;
+            }
+
+            gameOver = true;
+            return "TIE"
+        }
+
+
+        /**
+         * Resets the board 
+         */
+        function reset() {
+            board = [];
+            turn = 1;
+            gameOver = false;
+
+
+            init();
+            updateBoard("");
+
+            let reset = document.getElementById('reset')
+            reset.style.visibility = 'hidden';
+
+        }
+
+        /****************************************
+        // Controller functions
+        ****************************************/
+
+        /**
+         * Initializes the graphical and logical boards
+         */
+        function init() {
+            let buttons = document.getElementsByClassName('button');
+
+            // Attach a listener to each button to listen for clicks
+            for (let i = 0; i < buttons.length; i++) {
+                let button = buttons[i];
+                button.id = i;
+                button.addEventListener('click', handleButtonClick);
+
+                // Add an empty space to the logical board
+                board.push(0)
+            }
+            let resetButton = document.getElementById('reset');
+            resetButton.addEventListener('click', reset);
+        }
+
+        /**
+         * Handles a click on the reset button
+         * TODO: connect the reset button to this function
+         */
+        function handleResetButton(evt) {
+            // TODO: Reset and update the graphics
+        }
+
+        /**
+         * Handles a button click and connects the View and Model
+         */
+        function handleButtonClick(evt) {
+            let spot = parseInt(evt.target.id)
+
+            let reset = document.getElementById('reset')
+            reset.style.visibility = 'visible';
+
+            makeMove(spot)
+            let winner = checkWinner();
+
+            // TODO: Remove the console line once checkWinner works
+            updateBoard(winner);
+        }
+
+        /**
+         * Updates the graphical board to reflect the logical board
+         */
+        function updateBoard(winner) {
+            let buttons = document.getElementsByClassName('button');
+            for (let i = 0; i < buttons.length; i++) {
+                let spot = buttons[i].id;
+                if (board[spot] == 1) {
+                    buttons[i].innerText = 'X';
+                } else if (board[spot] == -1) {
+                    buttons[i].innerText = 'O';
+                } else {
+                    buttons[i].innerText = ' ';
+                }
+            } f
+
+            let turnPlayer = whoseTurn();
+            let status = document.getElementById('status');
+            status.innerHTML = turnPlayer + "\'s Turn";
+
+            if (winner != '')
+
+
+                if (gameOver == true) {
+                    if (winner == 'X') {
+                        status.innerHTML = 'X Winner'
+                    }
+
+                    if (winner == 'O') {
+                        status.innerHTML = 'O Winner'
+                    }
+                    if (winner == 'TIE') {
+                        status.innerHTML = 'TIE'
+                    }
+                }
+
+
+            // TODO: If the game is over, update the Status Display to the winner
+
+        }
+
+        // When the window finishes loading, call the init function
+        window.onload = init;
+    </script>
+</body>
+
+</html>

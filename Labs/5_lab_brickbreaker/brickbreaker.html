@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <!--  Comment in HTML    -->
+    <meta charset='UTF-8' />
+    <title>∆AtariBreakOut©®∆</title>
+    <style type='text/css'>
+        /* Reset everything to sensible defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14pt;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+ 
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+ 
+        div#scoreboard {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid black;
+            padding: 10px;
+            flex-basis: 10%;
+            background-color:rgb(130, 130, 130);
+        }
+ 
+        canvas#ballpen {
+            flex-grow: 1;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            -webkit-animation: gradient 13s ease infinite;
+            animation: gradient 13s ease infinite;
+        }
+ 
+        @-webkit-keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+ 
+            50% {
+                background-position: 100% 50%;
+            }
+ 
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+ 
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+ 
+            50% {
+                background-position: 100% 50%;
+            }
+ 
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+ 
+<body>
+    <div id='scoreboard'>
+        <div> Score: <span id='Score'>0</span></div>
+        <div id='FPS'></div>
+        <div> Lives: <span id="Lives">0</span></div>
+    </div>
+    <canvas id='ballpen'>
+    </canvas>
+    <script type='text/javascript'>
+        let canvas = document.getElementById('ballpen');
+        let oldDrawTime = 0;
+        // Game Objects
+        let playerScore = 0;
+        let playerLives = 3;
+        // The Ball
+        let ball = {
+            x: 0,
+            y: 0,
+            radius: 15,
+            velX: 5,
+            velY: 5,
+            move: function () {
+                this.x = this.x + this.velX;
+                this.y = this.y + this.velY;
+            }
+        };
+        //Finding how many bricks we need
+ 
+        //Bricks
+        let canvasWidth = canvas.clientWidth;
+        let canvasHeight = canvas.clientHeight;
+        let bricksNeeded = 7;
+        let brickWidth = (canvasWidth - (bricksNeeded + 1) * 10) / bricksNeeded
+        let margin = 10
+        class Brick {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = brickWidth;
+                this.height = 35;
+            }
+        }
+        console.log(Brick)
+        
+        let bricks = []
+        // Paddle
+        let paddle = {
+            x: 0,
+            y: 0,
+            width: 400,
+            height: 50,
+        };
+        // Creates all the objects and starts the game
+        function init() {
+            canvas = document.getElementById('ballpen');
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            window.addEventListener('keydown', handleKey);
+            // Setup objects here
+            //ball
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            //paddle
+            paddle.y = canvas.height / 8 * 7
+            paddle.x = canvas.width / 2 - paddle.width / 2
+ 
+            // Create Bricks and put in the bricks array
+            let y = margin;
+            for (let z = 0; z < 5; z++) {
+                let x = margin;
+                for (let i = 0; i < bricksNeeded; i++) {
+                    myBrick = new Brick(x, y);
+                    bricks.push(myBrick);
+                    x += myBrick.width + margin;
+                }
+                y += myBrick.height + margin
+            }
+            window.requestAnimationFrame(nextFrame);
+        }
+ 
+ 
+        function handleKey(evt) {
+            let keyPressed = event.keyCode;
+ 
+            if (keyPressed == 39) { //39 is 'Left Arrow'
+                for (let i = 0; i < 75; i++) {
+                    paddle.x++;
+                }
+            }
+ 
+            if (keyPressed == 37) { //37 is 'Right Arrow'
+                for (let i = 0; i < 75; i++) {
+                    paddle.x--;
+                }
+            }
+        }
+        // Plays a 'tick' of the game
+        function playGameTick() {
+            // Move the ball here
+            ball.move();
+            //collisions with wall here
+            handleWalls();
+            //collisions with paddle here
+            //collisions ball to rect here
+            handlePaddles();
+ 
+            //paddle collides with walls
+            paddleCollide();
+ 
+            //ball collides with brick
+            handleBricks();
+ 
+        }
+        // handles collision with the walls
+        function handleWalls() {
+            updateScore();
+            let canvas = document.getElementById('ballpen');
+            //bottom wall
+            if (ball.y + ball.radius > canvas.height) {
+                ball.y = canvas.height - ball.radius;
+                ball.velY = -ball.velY;
+            }
+            //right wall
+            if (ball.x + ball.radius > canvas.width) {
+                ball.x = canvas.width - ball.radius;
+                ball.velX = -ball.velX;
+            }
+            //top wall
+            if (ball.y - ball.radius < 0) {
+                ball.y = ball.radius;
+                ball.velY = -ball.velY;
+            }
+            //left wall
+            if (ball.x - ball.radius < 0) {
+                ball.x = ball.radius;
+                ball.velX = -ball.velX;
+            }
+        }
+ 
+        function updateScore() {
+            let canvas = document.getElementById('ballpen');
+            let score = document.getElementById('Score');
+            let lives = document.getElementById('Lives');
+            if (ball.y + ball.radius > canvas.height) {
+                playerLives--
+                ball.x = canvas.width / 2
+                ball.y = canvas.height / 2
+                if (playerLives == 0) {
+                    alert("Game Over")
+                    playerLives = 3;
+                    playerScore = 0;
+                    ball.x = canvas.width / 2;
+                    ball.y = canvas.height / 2;
+                }
+            }
+            if(bricks.length == 0){
+                playerScore = 0;
+                alert("You Win")
+            }
+            score.innerText = playerScore;
+            lives.innerText = playerLives;
+        }
+ 
+    
+ 
+        // collisions with paddle
+        function paddleCollide() {
+            //ALLOWS USE FOR CANVAS VAR//∆
+            let canvas = document.getElementById('ballpen');
+            //BOUNDING BOXES//∆
+            //Left Rectangle Bounding Box
+            let rectLeft = paddle.x;
+            let rectRight = paddle.x + paddle.width;
+            let rectTop = paddle.y;
+            let rectBot = paddle.y + paddle.height;
+            //Ball Bounding Box
+            let ballLeft = ball.x - ball.radius;
+            let ballTop = ball.y - ball.radius;
+            let ballRight = ball.x + ball.radius;
+            let ballBot = ball.y + ball.radius;
+            //PADDLE COLLIDES WITH WALL//∆
+            //paddle hits Left
+            if (rectLeft <= 0) {
+                paddle.y = canvas.height / 8 * 7;
+                paddle.x = 0;
+            }
+            //paddle hits Right
+            if (rectRight >= canvas.width) {
+                paddle.y = canvas.height / 8 * 7;
+                paddle.x = canvas.width - paddle.width;
+            }
+ 
+        }
+    
+ 
+        function handleBricks(){
+            for (let i = 0; i < bricks.length; i++) {
+                let brick = bricks[i];
+                if(brickdoesCollide(brick, ball)){
+                bricks.splice(i,1)
+                ball.velY = -ball.velY;
+                i = i - 1
+                playerScore += 100;
+                updateScore();
+                }
+            }
+        }
+        function handlePaddles() {
+            if (paddledoesCollide(paddle, ball)) {
+                ball.velY = -ball.velY;
+            }
+        }
+ 
+        function brickdoesCollide(brick, ball) {
+            //BOUNDING BOXES//∆
+            //Brick Bounding Box
+            let brickLeft = brick.x;
+            let brickRight = brick.x + brick.width;
+            let brickTop = brick.y;
+            let brickBot = brick.y + brick.height;
+            //Ball Bounding Box//
+            let ballLeft = ball.x - ball.radius;
+            let ballTop = ball.y - ball.radius;
+            let ballRight = ball.x + ball.radius;
+            let ballBot = ball.y + ball.radius;
+ 
+            //NO COLLISIONS// ∆
+            if (ballRight < brickLeft) {
+                return false;
+            }
+            if (ballTop > brickBot) {
+                return false;
+            }
+            if (ballBot < brickTop) {
+                return false;
+            }
+            if (ballLeft > brickRight) {
+                return false;
+            }
+            //IF ALL THOSE FALSE RETURN TRUE//∆
+            return true;
+        }
+ 
+        function paddledoesCollide(rect, ball) {
+            //BOUNDING BOXES//∆
+            //Rectangle Bounding Box//
+            let rectLeft = rect.x;
+            let rectRight = rect.x + rect.width;
+            let rectTop = rect.y;
+            let rectBot = rect.y + rect.height;
+            //Ball Bounding Box//
+            let ballLeft = ball.x - ball.radius;
+            let ballTop = ball.y - ball.radius;
+            let ballRight = ball.x + ball.radius;
+            let ballBot = ball.y + ball.radius;
+ 
+            //NO COLLISIONS// ∆
+            if (ballRight < rectLeft) {
+                return false;
+            }
+            if (ballTop > rectBot) {
+                return false;
+            }
+            if (ballBot < rectTop) {
+                return false;
+            }
+            if (ballLeft > rectRight) {
+                return false;
+            }
+            //IF ALL THOSE FALSE RETURN TRUE//∆
+            return true;
+        }
+ 
+        // constructs the next frame and draws the picture
+        function nextFrame(timestamp) {
+            playGameTick();
+            // Grab the canvas and clear it
+            let canvas = document.getElementById('ballpen');
+            let context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw the next frame
+            context.beginPath()
+            //ball
+            context.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+            context.fill()
+            //paddle
+            context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height)
+            //
+            for (let i = 0; i < bricks.length; i++) {
+                let brick = bricks[i];
+                context.fillRect(brick.x, brick.y, brick.width, brick.height)
+            }
+            // Update non-canvas items (score and FPS)
+            updateFPS(timestamp);
+            window.requestAnimationFrame(nextFrame);
+        }
+        // Show the FPS currently
+        function updateFPS(timestamp) {
+            let fpsDiv = document.getElementById('FPS');
+            let calcFPS = 1000 / (timestamp - oldDrawTime)
+            calcFPS = Math.round(calcFPS);
+            fpsDiv.innerHTML = calcFPS + ' fps';
+            oldDrawTime = timestamp;
+        }
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
+ 
+ 
+ 
+ 
+ 
+

@@ -1,0 +1,205 @@
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Global Warming Awareness</title>
+
+<!-- Internal style -->
+<style type="text/css">
+    /* Reset all default sizes to something sane */
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 14pt;
+    }
+
+    /* Set the body's CSS */
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Set the div with an ID of content */
+    div#content {
+        padding: 0.5em;
+    }
+
+
+    canvas#ballpen {
+        flex-grow: 1;
+        /* width: 100%;
+        height: 400px;
+        background-image: url('globalwarming.jpg');
+        /* background-repeat: no-repeat; */
+        /* background-size: 100% 100%; */
+        background-color: rgba(3, 3, 3, 0.973);
+    }
+</style>
+
+<!--  Comment in HTML -->
+<link rel="stylesheet" type="text/css" href="globalwarminglandingpage.css">
+</head>
+
+<body>
+    <div id="header">
+        Global Warming Awareness
+    </div>
+
+
+
+    <div class="name">
+        By Josh Coutu and Bilal Abraham
+    </div>
+
+
+    <ul id="navbar">
+        <li class="navitem"><a class="navlink" href="1landingpage.html">Back to Home</a></li>
+        <li class="navitem"><a class="navlink" href="https://en.wikipedia.org/wiki/Global_warming">Wiki</a></li>
+        <li class="navitem"><a class="navlink" href="https://climate.nasa.gov">NASA</a></li>
+        <li class="navitem"><a class="navlink"
+                href="https://www.nytimes.com/2019/12/04/climate/climate-change-acceleration.html">NY Times</a></li>
+        <li class="navitem"><a class="navlink" href="designprojectpage1.html">Quiz!</a></li>
+        <li class="navitem"><a class="navlink" href="gamelandingpage.html">Interactive Game!</a></li>
+    </ul>
+
+
+
+
+
+    <style type='text/css'>
+        /* Reset everything to sensible defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14pt;
+
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+
+            min-height: 100vh;
+
+        }
+
+
+
+        canvas#ballpen {
+            flex-grow: 1;
+        }
+    </style>
+    </head>
+</body>
+<canvas id='ballpen'></canvas>
+
+<script type='text/javascript'>
+    // The Ball
+
+
+    let ball = {
+        x: 0,
+        y: 0,
+        radius: 100,
+        velX: 5,
+        velY: 5,
+        move: function () {
+            this.x = this.x + this.velX;
+            this.y = this.y + this.velY;
+        }
+
+
+
+    };
+
+
+
+    // Creates all the objects and starts the game
+    function init() {
+
+        let canvas = document.getElementById('ballpen');
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+
+
+        // Setup objects here
+
+        ball.x = ball.radius;
+        ball.y = ball.radius;
+
+        window.requestAnimationFrame(nextFrame);
+    }
+
+
+
+    // Plays a 'tick' of the game
+    function playGameTick() {
+
+        // Move the ball here
+        ball.move();
+
+
+        handleWalls();
+
+    }
+
+    // handles collision with the walls
+    function handleWalls() {
+        let canvas = document.getElementById('ballpen');
+
+        if (ball.y + ball.radius > canvas.height) {
+            ball.y = canvas.height - ball.radius;
+            ball.velY = -ball.velY;
+        }
+
+        if (ball.x + ball.radius > canvas.width) {
+            ball.x = canvas.width - ball.radius;
+            ball.velX = -ball.velX;
+        }
+
+        if (ball.y - ball.radius < 0) {
+            ball.y = ball.radius
+            ball.velY = -ball.velY;
+        }
+
+
+        if (ball.x - ball.radius < 0) {
+            ball.x = ball.radius
+            ball.velX = -ball.velX;
+        }
+    }
+
+
+
+
+
+    // constructs the next frame and draws the picture
+    function nextFrame(timestamp) {
+
+        playGameTick();
+
+
+        // Grab the canvas and clear it
+        let canvas = document.getElementById('ballpen');
+        let context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        //add image onto the ball
+        let img = new Image();
+        img.src = 'earth.jpg';
+        context.drawImage(img, ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+
+        // Update non-canvas items (score and FPS)
+
+        window.requestAnimationFrame(nextFrame);
+    }
+
+
+
+    window.addEventListener('load', init);
+</script>
+</body>
+
+</html>

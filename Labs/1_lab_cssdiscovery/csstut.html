@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TUTORIAL</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="csstut.css">
+</head>
+
+<body>
+    <header>
+        <h1 id='header'>This is the Header</h1>
+    </header>
+    <p id='paragraph'>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit inventore esse quos consectetur,
+        natus aut mollitia
+        deleniti voluptas id corporis dignissimos nihil, eius quam autem laboriosam quis dolor recusandae neque.
+    </p>
+    <button onclick="setCounter()">Increment Counter</button>
+    <div id='count'>Count: 0</div>
+
+    <br> <br>
+
+    <button onclick="fizzBuzz()">Fizz Buzz</button>
+    <div id='fizzbuzz'>Fizzy Not Calculated</div>
+
+    <script>
+        let counter = 0;
+        let x = null;
+        let element = document.getElementById('fizzbuzz');
+
+        function setCounter() {
+            counter++;
+            let element = document.getElementById('count');
+            element.innerText = 'Count:' + ' ' + counter;
+        }
+
+        function fizzBuzz() {
+            for (let i = 1; i <= 100; i++) {
+                let z = '';
+                if (i % 3 === 0) z += 'Fizz';
+                if (i % 5 === 0) z += 'Buzz';
+                x += (z || i);
+                element.innerText = x;
+            }
+            element.innerText = x;
+        }
+
+
+    </script>
+</body>
+
+</html>

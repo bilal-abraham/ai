@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Final Score</title>
+<!-- CSS STARTS -->
+<style type='text/css'>
+    body {
+        margin: 0;
+    }
+
+    .header {
+        background-color: lightslategrey;
+        display: flex;
+        flex-direction: column;
+        grid-area: header;
+        justify-content: center;
+        align-items: center;
+        border: 10px dashed lightskyblue;
+    }
+
+    .rightbar {
+        background-color: rgb(51, 206, 59);
+        grid-area: rightbar;
+        display: block;
+        align-items: center;
+        flex-direction: row;
+        display: flex;
+        border: 10px dashed lightskyblue;
+        justify-content: center;
+    }
+
+    .footer {
+
+        grid-area: footer;
+        background-image: linear-gradient(rgb(221, 226, 226), rgb(78, 81, 83));
+        display: block;
+        align-items: center;
+        justify-content: left;
+        flex-direction: row;
+        display: flex;
+
+    }
+
+    a {
+        text-decoration: none;
+        display: block;
+
+        padding: 1em;
+
+    }
+
+    a:hover {
+        background-color: white;
+
+
+    }
+
+    .title {
+        background-color: lightskyblue;
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+    .container {
+        max-width: 100vw;
+        min-height: 100vh;
+
+        display: grid;
+        grid-template-columns: 0.8fr 3.2fr;
+        grid-template-rows: 1fr 4fr 1fr;
+        grid-template-areas:
+            "header  header"
+            "rightbar  rightbar"
+            "footer  footer";
+    }
+
+    .score {
+        background-color: lightslategrey;
+        padding: 1em;
+        color: white;
+        border-radius: 25px;
+        font-size: 33pt;
+        border: 10px solid lightskyblue;
+    }
+
+    .percentage {
+        background-color: lightslategrey;
+        padding: 1em;
+        color: white;
+        border-radius: 25px;
+        font-size: 33pt;
+        border: 10px solid lightskyblue;
+    }
+</style>
+<!--CSS ENDS-->
+
+</head>
+
+<body>
+    <!--HTML STARTS-->
+    <div class='container'>
+        <div class='header'>
+            <div class='title'>Final Score</div>
+        </div>
+        <div class='leftbar'>
+
+
+        </div>
+        <div class='rightbar'>
+            <div class='score'>Final Score: 0</div>
+            <div class='score'>Possible Points: 4</div>
+            <div class='percentage'>Percentage: 0%</div>
+        </div>
+        <div class='footer'>
+            <div onclick='clearLocalStorage();' class='changepage'><a href="endingpage.html"> Continue to Final Page
+                </a></div>
+        </div>
+
+    </div>
+    <!--HTML ENDS-->
+
+    <!--JS STARTS-->
+    <script type='text/javascript'>
+        function init() {
+            let s = localStorage.getItem('score');
+            if (s !== null) {
+                score = s;
+                let scoreElement = document.getElementsByClassName('score')[0];
+                scoreElement.innerText = 'Score:' + score;
+            }
+            let percentage = (score / 4) * 100
+            let percentageElement = document.getElementsByClassName('percentage')[0];
+            percentageElement.innerText = 'Percentage:' + percentage + '%';
+        }
+
+        function updateScore() {
+            score++
+            let scoreElement = document.getElementsByClassName('score')[0];
+            scoreElement.innerText = 'Final Score:' + score;
+            localStorage.setItem('score', score)
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+        }
+        window.onload = init
+    </script>
+    <!--JS ENDS-->
+
+</body>
+
+</html>

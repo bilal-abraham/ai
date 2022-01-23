@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Game Landing Page</title>
+<!-- CSS STARTS -->
+<style type='text/css'>
+    body {
+        margin: 0;
+    }
+
+    .header {
+        background-color: lightslategrey;
+        display: flex;
+        flex-direction: column;
+        grid-area: header;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .base {
+        background-color: lightskyblue;
+        grid-area: base;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    .rightbar {
+        background-color: lightgreen;
+        grid-area: rightbar;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+
+    }
+
+    a {
+        text-decoration: none;
+        background-color: lightgreen;
+        display: block;
+        border: 4px solid black;
+        padding: 1em;
+        margin: 10px;
+    }
+
+    z {
+        font-size: larger;
+        background-color: rgb(216, 125, 160);
+        display: block;
+        margin: 15px;
+        padding: 1em;
+    }
+
+    p {
+        text-decoration: none;
+        background-color: lightskyblue;
+        display: block;
+        border: 4px dashed black;
+        padding: 1em;
+    }
+
+
+
+    x {
+        text-decoration: none;
+        background-color: lightskyblue;
+        display: block;
+        border: 4px dashed black;
+        padding: 1em;
+    }
+
+    y {
+        text-decoration: none;
+        background-color: lightskyblue;
+        display: block;
+        border: 4px solid black;
+        /* padding: 1em; */
+        width: 40%;
+        height: 10%;
+        text-align: center;
+        text-justify: distribute;
+        padding: 20px;
+        margin: 15px;
+
+    }
+
+    y:hover {
+        background-color: white;
+    }
+
+    a:hover {
+        background-color: white;
+    }
+
+    .link {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+
+        width: 50%;
+    }
+
+    .linkheader {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        width: 60%;
+    }
+
+
+    .question {
+        color: white;
+        background-color: lightslategrey;
+        border-radius: 25px;
+        padding: 1.5em;
+        width: 30%;
+        display: block;
+        font-size: 14pt;
+        text-align: center;
+    }
+
+    .answer {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: left;
+        font-weight: bold;
+        padding: 0.5em;
+        width: 50%;
+    }
+
+    .answer:hover {
+        background-color: blue;
+    }
+
+
+    .footer {
+
+        grid-area: footer;
+        background-image: linear-gradient(rgb(221, 226, 226), rgb(78, 81, 83));
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        display: flex;
+    }
+
+
+
+    .title {
+        background-color: rgba(250, 2, 2, 0.582);
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+
+
+    .container {
+        max-width: 100vw;
+        min-height: 100vh;
+
+        display: grid;
+        grid-template-columns: 0.8fr 3.2fr;
+        grid-template-rows: 1fr 4fr 0.75fr 1fr;
+        grid-template-areas:
+            "header  header"
+            "rightbar  rightbar"
+            "base  base"
+            "footer  footer";
+    }
+</style>
+<!--CSS ENDS-->
+
+</head>
+
+<body>
+    <!--HTML STARTS-->
+    <div class='container'>
+        <div class='header'>
+            <div class='title'>Global Warming Awareness</div>
+        </div>
+        <div class='base'>
+            <div class='changepage'><a href="globalwarminglandingpage.html"> Quit </a></div>
+            <div class='changepage'><a href="game.html"> Go to Game! </a></div>
+        </div>
+        <div class='rightbar'>
+            <z>Before playing, click below to read about the game:</z>
+            <y onclick='globalwarmingCycle();'> Learn About the Global Warming Cycle </y>
+            <y onclick='howtoplayGame();'> How to Play the Game </y>
+
+        </div>
+        <div class='footer'><a
+                href="https://e360.yale.edu/features/as_arctic_ocean_ice_disappears_global_climate_impacts_intensify_wadhams">
+                Learn More About the Global Warming Cycle and Melting Polar Ice! </a>
+        </div>
+
+    </div>
+    <!--HTML ENDS-->
+
+    <!--JS STARTS-->
+    <script type='text/javascript'>
+        function globalwarmingCycle() {
+            alert(
+                "This game is meant to highlight the global warming cycle. The bright surfaces on ice sheets reflect some of the energy from the sun back into the atmosphere. This usually helps regulate earth's temperature as some energy escapes the atmosphere, however greenhouse gasses serve as a barrier, blocking sunlight from escaping. As more greenhouse gasses are released into the atmosphere and more sunlight is trapped in the atmosphere, temperatures are rising. This rise in temperature is causing more polar ice sheets to melt, thus making it harder to reflect sunlight into the atmosphere. As you can see, this leaves earth in an endless cycle of temperature increase and shrinking of ice sheets.")
+        }
+
+        function howtoplayGame() {
+            alert(
+                "In this game, the user will control an ice sheet (using the arrow keys) to attempt to reflect a ball of energy from the sun back into space. There will be a row of greenhouse gas blockers that block the sunlight from escaping. If the sunlight reaches space (the top of the screen), one greenhouse gas block will disappear. If however, the ball reaches the bottom of the screen, the average global temperature will increase by one degree celcius and the ice sheet will 'melt' by decreasing in size. The average global temperature in 2019 was about 15 degrees celcius, so that is what the temperature starts as. If the temperature reaches 20 degrees celcius you lose, as at that temperature earth would experience extreme weather, droughts, and extinctions. On the contrary, if all of the greenhouse gasses disappear, you win! Good luck, the fate of the world is in your hands!")
+
+        }
+    </script>
+    <!--JS ENDS-->
+
+
+
+</body>
+
+</html>

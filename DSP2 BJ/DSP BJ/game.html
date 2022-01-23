@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!--  Comment in HTML    -->
+    <meta charset='UTF-8' />
+    <title>Game</title>
+    <style type='text/css'>
+        /* Reset everything to sensible defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14pt;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+
+        }
+
+        div#scoreboard {
+            display: flex;
+            justify-content:space-between; 
+            border-bottom: 2px solid white;
+            padding: 10px;
+            background-color: navy;
+            color: white;
+            flex-basis: 10%;
+        }
+
+
+        canvas#ballpen {
+            width: 100%;
+            height: 400px;
+            background-image: url('game.jpg');
+
+            background-size: 100% 100%;
+            flex-grow: 1;
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            padding: 0.5em;
+            color: white;
+
+        }
+
+        a:hover {
+            background-color: grey;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id='scoreboard'>
+        <div><a href="gamelandingpage.html">Back</a></div>
+        <div>Global Warming Game</div>
+        <div>Average Earth Temperature (c): <span id='temperature'> 0 </span></div>
+
+    </div>
+    <canvas id='ballpen'>
+    </canvas>
+
+    <script type='text/javascript'>
+        let oldDrawTime = 0;
+
+        // Game Objects
+        let temperature = 15;
+        let numBlocks = 0;
+
+
+        //if( doesCollide(brick, what) == true && velY < 0 ){}
+
+        //Ball
+        let ball = {
+            x: 0,
+            y: 0,
+            radius: 10,
+            velX: 5,
+            velY: 5,
+            move: function () {
+                this.x = this.x + this.velX;
+                this.y = this.y + this.velY;
+            }
+        };
+
+
+        //Paddle
+        let paddle = {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+        };
+
+
+
+
+        const BLOCK_HEIGHT = 10;
+        const BLOCK_WIDTH = 100;
+        class Block {
+
+            constructor(x, y) {
+                this.x = x
+                this.y = y
+                this.width = BLOCK_WIDTH;
+                this.height = BLOCK_HEIGHT;
+            }
+        }
+
+        let blocks = [];
+
+        // Creates all the objects and starts the game
+        function init() {
+
+            let canvas = document.getElementById('ballpen');
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+
+            window.addEventListener('keydown', handleKey);
+
+            reset();
+
+            //position ball
+            ball.x = ball.radius * 10
+            ball.y = ball.radius * 10
+
+            //Set initial paddle width (changes during game)
+            paddle.width = canvas.width / 4
+            paddle.height = canvas.height / 20
+            paddle.maxwidth = canvas.width
+            paddle.minwidth = 0
+            //Position paddle
+
+            paddle.x = canvas.width / 2 - paddle.width / 2
+            paddle.y = canvas.height - paddle.height
+
+
+
+            window.requestAnimationFrame(nextFrame);
+        }
+
+        function handlePaddle() {
+            let canvas = document.getElementById('ballpen');
+            if (ball.y + ball.radius >= canvas.height) {
+
+                paddle.width = paddle.width / 1.5
+            }
+            //handles collision with paddle 
+            if (paddleCollide(paddle, ball)) {
+                ball.velY = -ball.velY;
+
+            }
+        }
+        //I made a seperate collision function just for the paddle because the blocks do not collide when velY is positive but the paddle does
+        function paddleCollide(rect, circle) {
+            let rectLeft = rect.x
+            let rectRight = rect.x + rect.width
+            let rectTop = rect.y
+            // let rectBottom = rect.y + rect.height
+
+            let circleLeft = circle.x - circle.radius
+            let circleTop = circle.y - circle.radius
+            let circleRight = circle.x + circle.radius
+            let circleBottom = circle.y + circle.radius
+
+            if (circleLeft > rectRight) {
+                return false;
+            }
+            if (circleRight < rectLeft) {
+                return false;
+            }
+            if (circleBottom < rectTop) {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        function reset() {
+            //resets canvas after game
+            let canvas = document.getElementById('ballpen');
+
+
+            ball.x = ball.radius * 10
+            ball.y = ball.radius * 10
+
+            paddle.x = canvas.width / 2 - paddle.width / 2
+            paddle.y = canvas.height - paddle.height
+            //resets paddle to initial width
+            paddle.width = canvas.width / 4
+
+
+            let y = 200;
+            for (let row = 0; row < 1; row++) {
+                numBlocks = Math.floor((canvas.width - 10) / 190)
+                let x = 10;
+
+                for (let i = 0; i < numBlocks; i++) {
+                    let b = new Block(x, y);
+                    x += BLOCK_WIDTH + 100;
+                    blocks.push(b);
+                }
+                y += BLOCK_HEIGHT + 100;
+            }
+
+        }
+
+        function handleBlocks() {
+            for (let i = 0; i < blocks.length; i++) {
+                if (doesCollide(blocks[i], ball)) {
+                    let canvas = document.getElementById("ballpen")
+                    ball.velY = -ball.velY
+                }
+            }
+
+            if (ball.y - ball.radius <= 0) {
+
+                ball.y = ball.radius
+                let i = Math.floor(Math.random() * blocks.length)
+                ball.velY = -ball.velY
+                blocks.splice(i, 1)
+            }
+        }
+
+        function handleKey(evt) {
+            // the key that was most recently down
+            let canvas = document.getElementById('ballpen');
+            let keyPressed = evt.which;
+
+            if (evt.which == 37) {
+                if (paddle.x >= 0) {
+                    paddle.x -= 50;
+                }
+            }
+
+
+            if (evt.which == 39) {
+                if (paddle.x <= canvas.width - paddle.width) {
+                    paddle.x += 50;
+                }
+            }
+        }
+
+        // Plays a 'tick' of the game
+        function playGameTick() {
+
+            // Move the ball here
+            ball.move();
+
+            handleWalls();
+
+            // Handle collisions with Paddle
+            handlePaddle();
+            handleBlocks();
+        }
+
+        // handles collision with the walls
+        function handleWalls() {
+
+            let canvas = document.getElementById('ballpen')
+            if (ball.x + ball.radius > canvas.width) {
+                ball.x = canvas.width - ball.radius;
+                ball.velX = -ball.velX;
+            }
+
+            if (ball.y - ball.radius < 0) {
+                ball.y = ball.radius
+                ball.velY = -ball.velY;
+
+            }
+
+
+            if (ball.x - ball.radius < 0) {
+                ball.x = ball.radius
+                ball.velX = -ball.velX;
+            }
+        }
+
+        // collisions with paddle
+        function doesCollide(rect, circle) {
+            let rectLeft = rect.x
+            let rectRight = rect.x + rect.width
+            let rectTop = rect.y
+            let rectBottom = rect.y + rect.height
+
+            let circleLeft = circle.x - circle.radius
+            let circleTop = circle.y - circle.radius
+            let circleRight = circle.x + circle.radius
+            let circleBottom = circle.y + circle.radius
+
+            if (circleLeft > rectRight) {
+                return false;
+            }
+            if (circleTop > rectBottom) {
+                return false;
+            }
+            if (circleRight < rectLeft) {
+                return false;
+            }
+            if (circleBottom < rectTop) {
+                return false;
+            }
+            //makes it so that the ball does not collide when coming down into the "atmosphere"
+            if (ball.velY > 0) {
+                return false
+            }
+            return true;
+        }
+
+        function updateScore() {
+
+            let rightText = document.getElementById("temperature")
+            let leftText = document.getElementById("score")
+            let canvas = document.getElementById("ballpen")
+
+
+            if (ball.y + ball.radius >= canvas.height) {
+                temperature = temperature + 1;
+                ball.x = ball.radius * 10
+                ball.y = ball.radius * 10
+            }
+
+            if (temperature == 20) {
+                temperature = 15
+                blocks.length = 0
+                alert("Game Over! You let the temperature rise too high!")
+                reset();
+            }
+
+
+            if (blocks.length == 0) {
+                temperature = 15
+                alert("You Win! Earth is saved!")
+                reset();
+            }
+            rightText.innerText = temperature;
+        }
+
+        // constructs the next frame and draws the picture
+        function nextFrame(timestamp) {
+
+            playGameTick();
+
+            // Grab the canvas and clear it
+            let canvas = document.getElementById('ballpen');
+            let context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+
+            // Draw the next frame
+
+            context.beginPath()
+            context.fillStyle = 'yellow'
+            context.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+            context.fill()
+
+            //Draw paddle
+            context.fillStyle = '#ffffff'
+            context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height)
+
+            //Draw blocks
+
+            for (let b of blocks) {
+                context.fillStyle = "#d67768";
+                context.fillRect(b.x, b.y, b.width, b.height)
+            }
+            updateScore();
+
+            window.requestAnimationFrame(nextFrame);
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+
+</html>

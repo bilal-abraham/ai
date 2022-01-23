@@ -1,0 +1,11 @@
+#header{
+    text-align: center;
+    font-family: cursive;
+}
+
+#paragraph{
+    text-align: right;
+    font-family: cursive;
+    color: red;
+    border-bottom: 2px solid lightblue;
+}

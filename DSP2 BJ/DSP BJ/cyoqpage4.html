@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Question 4</title>
+<!-- CSS STARTS -->
+<style type='text/css'>
+    body {
+        margin: 0;
+    }
+
+    #header {
+        background-color: lightslategrey;
+        display: flex;
+        flex-direction: column;
+        grid-area: header;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    #leftbar {
+        background-color: lightskyblue;
+        grid-area: leftbar;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+
+    #rightbar {
+        background-color: lightgreen;
+        grid-area: rightbar;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+
+    a {
+        text-decoration: none;
+        display: block;
+
+        padding: 1em;
+
+    }
+
+    a:hover {
+        background-color: white;
+
+
+    }
+
+    .link {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        width: 55%;
+    }
+
+    .linkheader {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        width: 70%;
+    }
+
+    .question {
+        color: white;
+        background-color: lightslategrey;
+        border-radius: 25px;
+        padding: 1.5em;
+        width: 30%;
+        display: block;
+        font-size: 14pt;
+        text-align: center;
+    }
+
+    .answer {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: left;
+        font-weight: bold;
+        padding: 0.5em;
+        width: 50%;
+    }
+
+
+
+    #a1:hover {
+        border-left: white 5px solid;
+        border-right: transparent 5px solid;
+    }
+
+    #a2:hover {
+        border-left: white 5px solid;
+        border-right: transparent 5px solid;
+    }
+
+    #a3:hover {
+        border-left: white 5px solid;
+        border-right: transparent 5px solid;
+    }
+
+    #a4:hover {
+        border-left: white 5px solid;
+        border-right: transparent 5px solid;
+    }
+
+    #footer {
+        grid-area: footer;
+        display: block;
+        align-items: center;
+        justify-content: left;
+        flex-direction: row;
+        display: flex;
+        background-color: lightslategray;
+    }
+
+
+
+    #title {
+        background-color: rgba(250, 2, 2, 0.582);
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+    .title {
+        background-color: rgba(250, 2, 2, 0.582);
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+    .container {
+        max-width: 100vw;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 0.8fr 3.2fr;
+        grid-template-rows: 1fr 4fr 1fr;
+        grid-template-areas:
+            "header  header"
+            "leftbar  rightbar"
+            "footer  footer";
+    }
+
+    .score {
+        grid-area: leftbar;
+        background-color: lightslategrey;
+        padding: 1.5em;
+        color: white;
+        border-radius: 25px;
+        width: 30%;
+        text-align: center;
+    }
+</style>
+<!--CSS ENDS-->
+
+</head>
+
+<body>
+    <!--HTML STARTS-->
+    <div class='container'>
+        <div id='header'>
+            <div class='title' id='title'></div>
+        </div>
+        <div id='leftbar'>
+            <div class='score' id='score'>Score: 0</div>
+
+        </div>
+        <div id='rightbar'>
+
+            <p id='q' class='question'> </p>
+            <div onclick='findAnswer(0);' id='a1' class='answera answer'> (A) </div>
+            <div onclick='findAnswer(1);' id='a2' class='answerb answer'> (B) </div>
+            <div onclick='findAnswer(2);' id='a3' class='answerc answer'> (C) </div>
+            <div onclick='findAnswer(3);' id='a4' class='answerd answer'> (D) </div>
+
+        </div>
+        <div id='footer'>
+            <div onclick='clearLocalStorage();' class='changepage'><a href="createyourownquiz.html"> Quit </a></div>
+            <div class='changepage'><a href="cyoqscorepage.html"> Finish Quiz</a></div>
+        </div>
+
+    </div>
+    <!--HTML ENDS-->
+
+    <!--JS STARTS-->
+    <script type='text/javascript'>
+        //Sets Variables Crucial
+        let score = 0;
+
+        let quizpart4 = JSON.parse(localStorage.getItem('quizpart4'));
+        let quizname = quizpart4.name
+        let question = quizpart4.question
+        let correctanswer = quizpart4.q4correct
+        let incorrectanswer1 = quizpart4.q4incorrect1
+        let incorrectanswer2 = quizpart4.q4incorrect2
+        let incorrectanswer3 = quizpart4.q4incorrect3
+
+        let colorScheme = JSON.parse(localStorage.getItem('colorScheme'));
+        let colort = colorScheme.tcolor
+        let colorh = colorScheme.hcolor
+        let colorf = colorScheme.fcolor
+        let colorl = colorScheme.lcolor
+        let colorr = colorScheme.rcolor
+        let colorq = colorScheme.qcolor
+        let colora = colorScheme.acolor
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        //Creates Array
+        let quizanswers = [correctanswer, incorrectanswer1, incorrectanswer2, incorrectanswer3]
+
+        //Randomize Question Answers Array
+        let arrayShuffle = function (arr) {
+            let newPosition,
+                temp;
+            for (let i = arr.length - 1; i > 0; i--) {
+                newPosition = Math.floor(Math.random() * (i + 1))
+                temp = arr[i];
+                arr[i] = arr[newPosition];
+                arr[newPosition] = temp;
+            }
+            return arr;
+        };
+        let newAnswers = arrayShuffle(quizanswers);
+
+        //////////////////////////////////////////////////////////////////////
+
+        let questionElement = document.getElementsByClassName('question')[0];
+        questionElement.innerText = question;
+
+        let answer1Element = document.getElementsByClassName('answera answer')[0];
+        answer1Element.innerText = 'A: ' + newAnswers[0];
+
+        let answer2Element = document.getElementsByClassName('answerb answer')[0];
+        answer2Element.innerText = 'B: ' + newAnswers[1];
+
+        let answer3Element = document.getElementsByClassName('answerc answer')[0];
+        answer3Element.innerText = 'C: ' + newAnswers[2];
+
+        let answer4Element = document.getElementsByClassName('answerd answer')[0];
+        answer4Element.innerText = 'D: ' + newAnswers[3];
+
+        let quiznameElement = document.getElementsByClassName('title')[0];
+        quiznameElement.innerText = quizname;
+
+        //////////////////////////////////////////////////////////////////////
+
+        let titleDiv = document.getElementById('title')
+        titleDiv.style.backgroundColor = colort;
+
+        let headerDiv = document.getElementById('header')
+        headerDiv.style.backgroundColor = colorh;
+
+        let footerDiv = document.getElementById('footer')
+        footerDiv.style.backgroundColor = colorf;
+
+        let leftDiv = document.getElementById('leftbar')
+        leftDiv.style.backgroundColor = colorl;
+
+        let rightDiv = document.getElementById('rightbar')
+        rightDiv.style.backgroundColor = colorr;
+
+        let questionDiv = document.getElementById('q')
+        questionDiv.style.backgroundColor = colorq;
+
+        let answer1Div = document.getElementById('a1')
+        answer1Div.style.backgroundColor = colora;
+
+        let answer2Div = document.getElementById('a2')
+        answer2Div.style.backgroundColor = colora;
+
+        let answer3Div = document.getElementById('a3')
+        answer3Div.style.backgroundColor = colora;
+
+        let answer4Div = document.getElementById('a4')
+        answer4Div.style.backgroundColor = colora;
+
+        //////////////////////////////////////////////////////////////////////
+
+        let s = localStorage.getItem('score');
+        if (s !== null) {
+            score = s;
+            let scoreElement = document.getElementsByClassName('score')[0];
+            scoreElement.innerText = 'Score:' + score;
+        }
+        if (localStorage.getItem('cyoqpage4done') != null) {
+            noCheat();
+        }
+
+        function updateScore() {
+            score++
+            let scoreElement = document.getElementsByClassName('score')[0];
+            scoreElement.innerText = 'Score:' + score;
+            localStorage.setItem('score', score)
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        function findAnswer(pick) {
+            if (newAnswers[pick] == correctanswer) {
+                correctAnswer();
+            } else {
+                incorrectAnswer();
+            }
+        }
+
+        function correctAnswer() {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+            updateScore();
+            alert("CORRECT: click next to move on");
+            localStorage.setItem('cyoqpage4done', true);
+        }
+
+        function incorrectAnswer() {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+            alert("INCORRECT: click next to move on");
+            localStorage.setItem('cyoqpage4done', true);
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        function noCheat() {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+        }
+    </script>
+    <!--JS ENDS-->
+
+</body>
+
+</html>

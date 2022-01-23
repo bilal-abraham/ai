@@ -1,0 +1,36 @@
+div#header {
+  font-weight: bold;
+  font: 22px;
+  text-align: center;
+  padding: 0.5em;
+  color: white;
+  background-color: darkgreen;
+}
+li.navitem {
+  color: darkgreen;
+  margin: 0;
+  display: inline-block;
+}
+
+ul#navbar {
+  background-color: gold;
+  border-bottom: 5px solid black;
+  margin-top: 0;
+}
+
+a {
+  color: darkgreen;
+  text-decoration: none;
+}
+
+a.navlink {
+  color: green;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+}
+
+a:hover {
+  background-color: darkgreen;
+  color: gold;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<title>Create Your Own Quiz</title>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<style type='text/css'>
+
+</style>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="createyourownquiz.css">
+
+    <h2>Custom Quiz Theme Picker:</h2>
+
+    <h3>Title:</h3>
+    <input type="color" list="colors" id="titlecolor">
+
+    <h3>Header:</h3>
+    <input type="color" list="colors" id="hcolor">
+
+    <h3>Footer:</h3>
+    <input type="color" list="colors" id="fcolor">
+
+    <h3>Left Bar:</h3>
+    <input type="color" list="colors" id="lcolor">
+
+    <h3>Right Bar:</h3>
+    <input type="color" list="colors" id="rcolor">
+
+    <h3>Questions:</h3>
+    <input type="color" list="colors" id="qcolor">
+
+    <h3>Answers:</h3>
+    <input type="color" list="colors" id="acolor">
+
+    <h3>Score Page Border:</h3>
+    <input type="color" list="colors" id="scolor">
+
+    <br><br><br>
+
+    <input class='submit' onclick='submitColors()' type="submit">
+
+    <br><br><br><br><br>
+
+    <footer>
+        <div><a class='changepage' href="1landingpage.html">Back to Home</a></div>
+        <div><a onclick="clearLocalStorage()" class='changepage' href="createyourownquiz.html">Reset Questions</a></div>
+        <div><a class='changepage' href="cyoqpage1.html">Continue to Quiz</a></div>
+    </footer>
+
+    <script type='text/javascript'>
+        function submitColors() {
+            makeInvisible();
+            accessInputs();
+            alert("Colors Submitted; Click Continue to Quiz")
+        }
+
+        function accessInputs() {
+            //Creating Varibles for JSON
+            //Title
+            title = document.getElementById('titlecolor').value
+
+            //Header & Footer
+            header = document.getElementById('hcolor').value
+            footer = document.getElementById('fcolor').value
+
+            //Left Bar & Right Bar
+            left = document.getElementById('lcolor').value
+            right = document.getElementById('rcolor').value
+
+            //Questions & Answers 
+            questions = document.getElementById('qcolor').value
+            answers = document.getElementById('acolor').value
+
+            //Score Page Border
+            scoreborder = document.getElementById('scolor').value
+
+
+            //Object
+            let colorScheme = {
+                tcolor: title,
+                hcolor: header,
+                fcolor: footer,
+                lcolor: left,
+                rcolor: right,
+                qcolor: questions,
+                acolor: answers,
+                scolor: scoreborder
+            }
+
+            //Puts JSON into a String 
+            //Then Puts it in localStorage
+            localStorage.setItem('colorScheme', JSON.stringify(colorScheme));
+        }
+
+        function makeInvisible() {
+            let elements = document.getElementsByClassName('submit');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

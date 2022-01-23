@@ -1,0 +1,306 @@
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title>Madlibs</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14pt;
+            font-family: 'Arial Narrow';
+        }
+
+        body {
+            /* determines grid */
+            display: grid;
+            grid-template-rows: 0.5fr 3fr 1fr;
+            grid-template-columns: 1fr 2fr;
+            grid-template-areas:
+                "header header"
+                "input story"
+                "footer footer ";
+            height: 100vh;
+            width: 100vw;
+            box-sizing: border-box;
+        }
+
+        div#header {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            background-color: rgb(236, 145, 99);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4vw;
+            border: solid;
+            padding: 1%;
+        }
+
+        div#inputholder {
+            display: flex;
+            flex-direction: column;
+            grid-area: "input";
+            justify-self: stretch;
+            background-color: rgb(72, 211, 221);
+            padding: 2%;
+            border-right: solid;
+            border-left: solid;
+        }
+
+        div.story1 {
+            display: inline-block;
+            /* makes story start off 'invisible' to user */
+            color: rgb(248, 193, 145);
+            ;
+        }
+
+        div#story1 {
+            background-color: rgb(248, 193, 145);
+            ;
+            border-right: solid;
+            padding: 2vw;
+        }
+
+        div#footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(22, 151, 183);;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            border: solid;
+        }
+        a{
+            padding-top:1%;
+            padding-bottom:1%;
+            padding-left:2%;
+            padding-right:2%;
+            text-decoration:none;
+            border:solid;
+            border-color:rgb(17, 123, 150);
+            background-color:rgb(72, 211, 221);
+            color:rgb(22, 151, 183);
+        }
+        a:hover{
+            background-color:rgb(17, 123, 150);
+            border-color:rgb(72, 211, 221);
+            color:rgb(72, 211, 221);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">MADLIBS</div>
+    <div id='inputholder'>
+        <label for='noun'>Plural Noun:</label>
+        <input type='text' id='noun'></input>
+
+        <label for='noun2'>Noun:</label>
+        <input type='text' id='noun2'></input>
+
+        <label for='noun3'>Noun 2:</label>
+        <input type='text' id='noun3'></input>
+
+        <label for='adjective'>Adjective 1:</label>
+        <input type='text' id='adjective'></input>
+
+        <label for='adjective2'>Adjective 2:</label>
+        <input type='text' id='adjective2'></input>
+
+        <label for='adjective3'>Adjective 3:</label>
+        <input type='text' id='adjective3'></input>
+        <label for='verb'>Verb (present):</label>
+        <input type='text' id='verb'></input>
+
+        <label for='interjection'>Interjection:</label>
+        <input type='text' id='interjection'></input>
+        <label for='name'> Name:</label>
+        <input type='text' id='name'></input>
+
+        <button onclick='generateStory(); '>Generate Story!</button>
+    </div>
+    <div id=story1>
+        <!-- empty 'spaces'to be filled with the story -->
+        <div class='story1' id='1'></div>
+        <div class='story1' id='2'></div>
+        <div class='story1' id='3'></div>
+        <div class='story1' id='4'></div>
+        <div class='story1' id='5'></div>
+        <div class='story1' id='6'></div>
+        <div class='story1' id='7'></div>
+        <div class='story1' id='8'></div>
+        <div class='story1' id='9'></div>
+        <div class='story1' id='10'></div>
+        <div class='story1' id='11'></div>
+        <div class='story1' id='12'></div>
+        <div class='story1' id='13'></div>
+        <div class='story1' id='14'></div>
+        <div class='story1' id='15'></div>
+        <div class='story1' id='16'></div>
+        <div class='story1' id='17'></div>
+        <div class='story1' id='17'></div>
+        <div class='story1' id='18'></div>
+        <div class='story1' id='19'> </div>
+        <div class='story1' id='20'></div>
+        <div class='story1' id='21'></div>
+        <div class='story1' id='22'></div>
+        <div class='story1' id='23'></div>
+        <div class='story1' id='24'></div>
+        <div class='story1' id='25'></div>
+    </div>
+    <div id="footer">
+        <!-- back button -->
+        <a href=homepage.html>BACK</a>
+    </div>
+
+    <script type='text/javascript'>
+        // for determining which story (-1 is the covid story, 1 is the other one)
+        let story = 1;
+        // variables for the input box text
+        let pluralNoun = document.getElementById('noun');
+        let noun2 = document.getElementById('noun2');
+        let noun3 = document.getElementById('noun3');
+        let adjective1 = document.getElementById('adjective');
+        let adjective2 = document.getElementById('adjective2')
+        let adjective3 = document.getElementById('adjective3');
+        let interjection1 = document.getElementById('interjection');
+        let verb1 = document.getElementById('verb');
+        let name = document.getElementById('name');
+
+        // variables for the empty story divs
+        let one = document.getElementById('1')
+        let two = document.getElementById('2')
+        let three = document.getElementById('3')
+        let four = document.getElementById('4')
+        let five = document.getElementById('5')
+        let six = document.getElementById('6')
+        let seven = document.getElementById('7')
+        let eight = document.getElementById('8')
+        let nine = document.getElementById('9')
+        let ten = document.getElementById('10')
+        let eleven = document.getElementById('11')
+        let twelve = document.getElementById('12')
+        let thirteen = document.getElementById('13')
+        let fourteen = document.getElementById('14')
+        let fifteen = document.getElementById('15')
+        let sixteen = document.getElementById('16')
+        let seventeen = document.getElementById('17')
+        let eighteen = document.getElementById('18')
+        let nineteen = document.getElementById('19')
+        let twenty = document.getElementById('20')
+        let twentyone = document.getElementById('21')
+        let twentytwo = document.getElementById('22')
+        let twentythree = document.getElementById('23')
+        let twentyfour = document.getElementById('24')
+        let twentyfive = document.getElementById('25')
+
+        // this variable is only for making story invisible/visible
+        let story1 = document.getElementsByClassName('story1');
+
+        let vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
+
+        // determines which article (a/an) should be used
+        function whichArticle1(whichArticle) {
+            for (let i = 0; i < vowels.length; i++) {
+                if (vowels[i] == whichArticle[0]) {
+                    return false
+                }
+            }
+            return true;
+        }
+
+        // gets rid of "s" at the end of the plural noun input
+        function notPlural() {
+            let plural = pluralNoun.value;
+            let notPlural = plural.substring(0, plural.length - 1)
+            twentythree.innerText = notPlural + '. Thank goodness!"';
+
+        }
+        
+        function fixWords() {
+            let whichArticle = adjective2.value;
+            for (let i = 0; i < 2; i++) {
+                let hello = whichArticle1(whichArticle);
+                if (hello == true) {
+                    fifteen.innerText = "a";
+                } else {
+                    fifteen.innerText = 'an'
+                }
+            }
+            notPlural();
+        }
+
+        // makes story "visible" to user
+        function makeVisible() {
+            for (let i = 0; i < story1.length; i++) {
+                story1[i].style.color = 'black'
+            }
+        }
+
+        function generateStory() {
+            if (story == 1) {
+                fixWords();
+                // fills the empty divs with text
+                one.innerText = "Once upon a time, there lived a group of";
+                two.innerText = adjective1.value;
+                three.innerText = pluralNoun.value;
+                four.innerText = ". All was well until one";
+                five.innerText = adjective3.value;
+                six.innerText = "and stormy night.";
+                seven.innerText = '"' + interjection.value + '!' + " " + 'the power is out! '
+                eight.innerText = 'What do we do?".';
+                nine.innerText = '"I think we should'
+                ten.innerText = verb1.value + " " + 'some candles,"';
+                eleven.innerText = "said" + " " + name.value + "."
+                twelve.innerText = "A few minutes later,"
+                thirteen.innerText = "they heard a noise from outside."
+                fourteen.innerText = '"I think it is'
+                sixteen.innerText = adjective2.value;
+                seventeen.innerText = 'monster!" cried'
+                eighteen.innerText = name.value + ".";
+                nineteen.innerText = "Suddenly, the door creaked open,"
+                twenty.innerText = "and a giant shadow was cast on the floor."
+                twentyone.innerText = "It stepped into the light."
+                twentytwo.innerText = '"Oh, it is just another'
+                twentyfour.innerText = "They invited it in for a cup of"
+                twentyfive.innerText = noun3.value + " " + "and became good friends.";
+            }
+            if (story == -1) {
+                one.innerText = 'Yesterday,';
+                two.innerText = noun2.value;
+                three.innerText = 'started to cough,';
+                four.innerText = verb1.value;
+                five.innerText = 'and feel very sick!';
+                six.innerText = "They thought they might have";
+                seven.innerText = "contracted covid-19, a highly"
+                eight.innerText = adjective1.value;
+                nine.innerText = 'illness, so they stayed home.'
+                ten.innerText = 'When their covid test results appeared later'
+                eleven.innerText = 'that week in the mail'
+                twelve.innerText = noun3.value + ",";
+                thirteen.innerText = "they realized they didn't have covid-19,"
+                fourteen.innerText = 'but a rare'
+                fifteen.innerText = adjective2.value
+                sixteen.innerText = 'form of the giggles!'
+                seventeen.innerText = interjection1.value + "!";
+                eighteen.innerText = "That was close!"
+                nineteen.innerText = "";
+                twenty.innerText = "";
+                twentyone.innerText = "";
+                twentytwo.innerText = '';
+                twentythree.innerText='';
+                twentyfour.innerText = ""
+                twentyfive.innerText = " " ;
+            }
+
+            makeVisible();
+            story = story * -1
+
+        }
+    </script>
+
+</body>
+
+</html>

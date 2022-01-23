@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Final Score</title>
+<!-- CSS STARTS -->
+<style type='text/css'>
+    body {
+        margin: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header {
+        background-color: lightslategrey;
+        display: flex;
+        flex-direction: column;
+        grid-area: header;
+        justify-content: center;
+        align-items: center;
+        border: 10px dashed lightskyblue;
+    }
+
+    .rightbar {
+        background-color: rgb(51, 206, 59);
+        grid-area: rightbar;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        display: flex;
+        border: 10px dashed lightskyblue;
+        justify-content: center;
+    }
+
+    .footer {
+        grid-area: footer;
+        background-color: lightslategray;
+        display: block;
+        align-items: center;
+        justify-content: left;
+        flex-direction: row;
+        display: flex;
+
+    }
+
+    a {
+        text-decoration: none;
+        display: block;
+        padding: 1em;
+    }
+
+    a:hover {
+        background-color: white;
+
+
+    }
+
+    .title {
+        background-color: lightskyblue;
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+    .container {
+        max-width: 100vw;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 1fr 4fr 1fr;
+        grid-template-areas:
+            "header  header"
+            "rightbar  rightbar"
+            "footer  footer";
+    }
+
+    .score {
+        background-color: lightslategrey;
+        padding: 1em;
+        color: white;
+        border-radius: 25px;
+        font-size: 33pt;
+        border: 10px solid lightskyblue;
+        width: 20%;
+        height: 30%;
+        margin: 10px;
+    }
+
+    .percentage {
+        background-color: lightslategrey;
+        padding: 1em;
+        color: white;
+        border-radius: 25px;
+        font-size: 33pt;
+        border: 10px solid lightskyblue;
+        width: 20%;
+        height: 30%;
+        margin: 10px;
+    }
+</style>
+<!--CSS ENDS-->
+
+</head>
+
+<body>
+    <!--HTML STARTS-->
+    <div class='container'>
+        <div id='header' class='header'>
+            <div id='title' class='title'>Final Score</div>
+        </div>
+        <div id='leftbar' class='leftbar'>
+        </div>
+        <div id='rightbar' class='rightbar'>
+            <div id='score' class='score'>Final Score: 0</div>
+            <div id='score' class='score'>Possible Points: 4</div>
+            <div id='score' class='percentage'>Percentage: 0%</div>
+        </div>
+        <div id='footer' class='footer'>
+            <div onclick='clearLocalStorage();' class='changepage'><a href="1landingpage.html"> Go Home </a></div>
+            <div onclick='clearLocalStorage();' class='changepage'><a href="createyourownquiz.html"> Create Another
+                    Quiz</a></div>
+        </div>
+
+    </div>
+    <!--HTML ENDS-->
+
+    <!--JS STARTS-->
+    <script type='text/javascript'>
+        //Inports JSON
+        let colorScheme = JSON.parse(localStorage.getItem('colorScheme'));
+        let colort = colorScheme.tcolor
+        let colorh = colorScheme.hcolor
+        let colorf = colorScheme.fcolor
+        let colorl = colorScheme.lcolor
+        let colorr = colorScheme.rcolor
+        let colors = colorScheme.scolor
+
+
+        //Replaces Color CSS
+        let titleDiv = document.getElementById('title')
+        titleDiv.style.backgroundColor = colort;
+
+        let headerDiv = document.getElementById('header')
+        headerDiv.style.backgroundColor = colorh;
+
+        let footerDiv = document.getElementById('footer')
+        footerDiv.style.backgroundColor = colorf;
+
+        let rightDiv = document.getElementById('rightbar')
+        rightDiv.style.backgroundColor = colorr;
+
+        let scoreborderrightbarDiv = document.getElementById('rightbar')
+        scoreborderrightbarDiv.style.borderColor = colors;
+
+        let scoreborderheaderDiv = document.getElementById('header')
+        scoreborderheaderDiv.style.borderColor = colors;
+
+        //Imports Score
+        let score = localStorage.getItem('score');
+
+        //Writes Score in Final Score
+        if (score == null) {
+            scoreElement.innerText = 'Score: 0';
+        }
+        let scoreElement = document.getElementsByClassName('score')[0];
+        scoreElement.innerText = 'Score: ' + score;
+
+        //Calculates & Writes Percentage
+        let percentage = (score / 4) * 100
+        let percentageElement = document.getElementsByClassName('percentage')[0];
+        percentageElement.innerText = 'Percentage: ' + percentage + '%';
+
+        function clearLocalStorage() {
+            localStorage.clear();
+        }
+    </script>
+    <!--JS ENDS-->
+
+</body>
+
+</html>

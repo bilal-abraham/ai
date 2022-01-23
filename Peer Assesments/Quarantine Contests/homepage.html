@@ -1,0 +1,276 @@
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title> Family Activities for Quarantine </title>
+    <style type='text/css'>
+        body {
+            font-family: 'Arial Narrow';
+        }
+        /* determines grid */
+        div#gridcontainer {
+            display: grid;
+            height: 100%;
+            width: 100%;
+            justify-items: stretch;
+            grid-template-rows: 0.5fr 2fr 0.5fr;
+            grid-template-columns: 1fr 2fr;
+            grid-template-areas:
+                "header header"
+                "nav container"
+                "footer footer";
+
+        }
+
+        div#heading {
+            font-size: 3vw;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            background-color: rgb(22, 151, 183);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid;
+        }
+
+
+        div#toolbar {
+            background-color: rgb(48, 195, 205);
+            display: flex;
+            box-sizing: border-box;
+            border-right-style: solid;
+            border-left-style: solid;
+            padding: 10%;
+            justify-content: space-around;
+            flex-direction: column;
+            font-size: 2vw;
+            font-style: bold;
+            text-decoration: none;
+
+        }
+
+        a {
+            color: rgb(22, 151, 183);
+            text-decoration: none;
+            padding: 4%;
+        }
+
+        div.games {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-style: solid;
+            border-right-style: solid;
+            border-left-style: solid;
+            border-bottom-style: solid;
+            border-color: rgb(232, 128, 76);
+            background-color: rgb(243, 173, 120);
+
+        }
+
+        div.games:hover {
+            border-color: rgb(243, 173, 120);
+            background-color: rgb(232, 128, 76);
+            color: rgb(25, 125, 150);
+
+        }
+        /* dropdown menu (referenced W3schools)*/
+        button.howtoplay {
+            color: rgb(22, 151, 183);
+            background-color: rgb(243, 173, 120);
+            border: solid;
+            border-color: rgb(232, 128, 76);
+
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2vw;
+            font-style: bold;
+            text-decoration: none;
+        }
+
+        button.howtoplay:hover {
+            border-color: rgb(243, 173, 120);
+            background-color: rgb(232, 128, 76);
+            color: rgb(22, 151, 183);
+        }
+
+        div.dropdown {
+            /* without absolute positioning, 
+            dropdown items push the other divs down */
+            position: absolute;
+            top: 17%;
+            left: 4%;
+        }
+
+        div.menuoptions {
+            display: none;
+            background-color:rgb(65, 182, 211) ;
+            min-width: 200px;
+        }
+
+        div.menuoptions button#dropdown {
+            padding: 20px;
+            text-decoration: none;
+            display: block;
+        }
+
+        div.dropdown:hover div.menuoptions {
+            display: block;
+        }
+
+        button#dropdown:hover {
+
+            background-color:rgb(43, 141, 165);
+        }
+
+        div#howotplay {
+            grid-area: 'container';
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        button#dropdown {
+            border: none;
+            background-color: rgb(32, 172, 182);
+            
+        }
+
+        div#footer {
+            background-color: rgb(22, 151, 183);
+            border: solid;
+            grid-column-start: -3;
+            grid-column-end: -1;
+        }
+
+        div#container {
+            background-color: rgb(243, 173, 120);
+            border-right: solid;
+        }
+
+        div#infoHeader {
+            background-color:rgb(243, 173, 120);
+            font-weight: bold;
+            padding: 5%;
+        }
+
+        div#info {
+            background-color: white;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        img {
+            display: inline-block;
+            border: solid;
+            border-color:rgb(65, 182, 211);
+            /* so it doesn't interfere with the info divs */
+            position: absolute;
+            top: 23%;
+            left: 50%;
+            margin: 1%;
+            height: 50vh;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="gridcontainer">
+        <div id='heading'>
+            <div id='header'>Quarantine Contests</div>
+        </div>
+        <div id='toolbar'>
+            <div id='howtoplay'>
+                <div class="dropdown">
+                    <button class="howtoplay">COVID-19 Information</button>
+                    <div class="menuoptions">
+                        <button onclick='whatCovid();' id="dropdown">What is COVID-19?</button>
+                        <button onclick='feelCovid();' id="dropdown">What does COVID-19 feel like?</button>
+                        <button onclick='haveCovid();' id="dropdown">What should you do if you get sick?</button>
+                        <button onclick='stopSpread();' id="dropdown">How to help stop the spreading COVID-19</button>
+                    </div>
+                </div>
+            </div>
+            <div id='game1' class='games'>
+                <a href=Hangman.html>Hangman</a>
+            </div>
+            <div id='game2' class='games'> <a href=CharadesHomepage.html>Charades</a></div>
+            <div id='game3' class='games'>
+                <a href=madlibs.html>Madlibs</a>
+            </div>
+            <div id='game4' class='games'>
+                <a href=AlphabetGame.html>The Alphabet Game</a>
+
+            </div>
+            <div id='game5' class='games'>
+                <a href=dice.html>Dice Simulator</a>
+
+            </div>
+        </div>
+        <div id='container'>
+            <img id='image1' src='photo.jpg' />
+            <div id='infoHeader'></div>
+            <div id='info'></div>
+        </div>
+        <div id='footer'> </div>
+    </div>
+
+    <script type='text/javascript'>
+        let header = document.getElementById('infoHeader')
+        let box = document.getElementById('info'); // where the the text will go
+        let image = document.getElementById('image1');
+        let container=document.getElementById('container')
+
+        function whatCovid() {
+            // clears the image
+            image.style.display = 'none';
+            container.style.backgroundColor = "white";
+            header.style.backgroundColor = "white";
+            header.innerText = 'What is COVID-19?'
+            header.style.color = 'coral';
+            box.innerText =
+                "COVID - 19 is a type of coronavirus spreading around the world. It is highly contagious and spread from person - to - person through coughing or sneezing."
+
+        }
+
+        function feelCovid() {
+            image.style.display = 'none';
+            container.style.backgroundColor = "white";
+            infoHeader.style.backgroundColor = "white";
+            header.style.color = 'coral';
+            header.innerText = 'What does COVID-19 feel like?'
+            box.innerText =
+                "COVID-19 symptoms can include coughing, shortness of breath/difficulty breathing, fever, chills, muscle pain, sore throat, and loss of taste/smell."
+        }
+
+        function haveCovid() {
+            image.style.display = 'none';
+            container.style.backgroundColor = "white";
+            infoHeader.style.backgroundColor = "white";
+            header.style.color = 'coral';
+            header.innerText = "What should you do if you get sick?"
+            box.innerText =
+                'If you feel symptoms, contact your doctor or another health professional and explain your symptoms to them. If you are not able to contact such a person, try to distance yourself from other people until you get a professional opinion on your situation.'
+        }
+
+        function stopSpread() {
+            image.style.display = 'none';
+            container.style.backgroundColor = "white";
+            infoHeader.style.backgroundColor = "white";
+            header.style.color = 'coral';
+            header.innerText = 'How can your family help stop the spread of COVID-19?'
+            box.innerText =
+                'Wear a face mask when out in public and remain six feet away from others if possible. Try to refrain from touching commonly touched objects, such as doorknobs, whenever possible. Wash your hands often and do not touch your face when in public.'
+        }
+    </script>
+</body>
+
+</html>

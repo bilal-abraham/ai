@@ -1,0 +1,340 @@
+<!-- comments appear ABOVE the code they are refering to -->
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset='utf-8' />
+        <style type='text/css'>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+        }
+        canvas#paper{
+            margin:2em;
+            background-color:whitesmoke;
+            justify-self:center;
+            width:100%;
+            height:100%;
+            grid-area: 'paper';
+        }
+        div#guesses{
+            grid-area:'guesses';
+            text-align:center;
+        }
+        div#word{
+            grid-area:'word';
+            background-color:lightgrey;
+            display:flex;
+        }
+        div#heading{
+            color:white;
+            grid-area:'head';
+            grid-column-start: 1;
+            grid-column-end: 3;
+            display:inline-block;
+            background-color:#1697B7;
+            text-align:center;
+            font-size:1.5em;
+            border: solid 0.5vw white;
+        }
+        
+        div.letters{
+            margin:2em;
+            font-weight: bold;
+
+        }
+        div#incorrect{
+            text-align:center;
+            margin:2em;
+            grid-area:'incorrect';
+            background-color:#E8804C;
+        }
+        body{
+                background-color:lightgrey;
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                grid-template-rows: 1fr 5fr 1fr;
+                grid-template-areas: 
+                'head head'
+                'paper incorrect'
+                'word guesses'
+        }  
+        div#popup{
+            background-color: #1697B7;
+            position:absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        div#multiplayer{
+            margin:3em;
+            padding:4em;
+            background-color:#F3AD78;
+            border: solid 0.5vw white;
+        }
+        div#singleplayer{
+            margin:3em;
+            background-color:#F3AD78;
+            padding:4em;
+            border: solid 0.5vw white;
+        }
+        /* styling the link to the home page at the bottom */
+        a{
+            width:25%;
+            padding:1em;
+            background-color: #1697B7;
+            color:white;
+            text-decoration:none;
+        }
+    </style>
+    </head>
+    <body>
+        <!-- creates pop-up bar -->
+        <div id='popup'>
+            <!-- option to type in word and play against someone -->
+            <div id='multiplayer'>
+            Multiplayer: 
+            <input type='text' onkeyup="this.value = this.value.toUpperCase();" id='playerword' maxlength='16' placeholder='Type word here...'></input>
+            <button onclick='typed();'>Done</button>
+            </div>
+            <!-- option to play a randomly generated word -->
+            <div id='singleplayer'>
+                Play a randomly generated word
+            </div>
+        </div>
+        <div id='heading'>Hangman</div>
+        <canvas id='paper'>
+        </canvas>
+        <div id='incorrect'> Wrong guesses:</div>
+        <div id='word'>
+        <!-- divs for each letter spot -->
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+        <div class='letters'></div>
+    </div>
+    <div id='guesses'> guesses left:7</div>
+    <a href='homepage.html'>Home</a>
+        
+<script type='text/javascript'>
+let popup=document.getElementById('popup');
+let canvas = null;
+// the word being guessed
+let chosen= null;
+// array of the correct letters guessed and blanks for missing letters
+let newArr=[];
+// incorrect letters guessed
+let wrongguess=[];
+// number of wrong guesses
+let numwrong=0;
+// guesses left
+let guesses=7;
+// listens for a click on the singleplayer part of the pop-up
+let singleplayer=document.getElementById('singleplayer');
+singleplayer.addEventListener('click', random);
+
+// draws the man's head
+let ball={
+    radius:20,
+    draw:function(ctx){
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.stroke();
+    }
+}
+// class for all the man's body parts  
+class limb{
+    constructor(){
+    }
+    draw (ctx, startX, startY, stopX, stopY){
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(stopX,stopY);
+        ctx.stroke();
+        ctx.closePath();
+
+    }
+} 
+// makes blanks based on the length of the word
+function blanks(){
+    for(let i=0; i<chosen.length;i++){
+        // chosen is the new word that is being guessed
+        newArr.push('____');
+    }
+    update(newArr);
+}
+
+
+// checks if the key pressed is in the word
+function check(evt){
+    let keyPressed = evt.which;
+    let letter=String.fromCharCode(evt.which);
+    let word=chosen;
+    let yes=0;
+    for (let i=0; i<wrongguess.length; i++){
+            if (letter==wrongguess[i]){
+                return null;
+    }
+    }
+        for (let i=0; i<word.length; i++){
+            if (letter==word[i]){
+                yes++;
+                newArr[i]=letter;
+    }
+            }
+        
+        if(yes<=0){
+            numwrong++;
+            guesses=guesses-1;
+            wrongguess.push(letter);
+            updateman();
+        }
+        update(newArr);
+        
+    }
+// fills the blanks based on the letters guessed
+function update(currentArr){
+    let win="";
+    let newletters=document.getElementsByClassName('letters');
+    // letters is a parent that has the 'letter' divs as children
+    for(let i=0; i<chosen.length;i++){
+        newletters[i].innerText=currentArr[i];
+        win=win + currentArr[i];
+    }
+    for(let i=chosen.length; i<newletters.length; i++){
+        newletters[i].innerText='';
+    }
+    let wrong=document.getElementById('incorrect');
+    wrong.innerText='Wrong guesses:   ' + wrongguess;
+
+if(win==chosen){
+    alert('you won!');
+    resetWord();
+    popup.style.display="block";
+}
+}
+
+// draws the hangman on the canvas
+function updateman(){
+    
+    if (numwrong>=1){
+        ball.draw(ctx)}
+    if(numwrong>=2){
+        let neck = new limb ();
+        neck.draw(ctx,ball.x,ball.y+ball.radius, ball.x,ball.y+ball.radius+20);
+    }
+    if(numwrong>=3){
+        let arm1 = new limb ();
+        arm1.draw(ctx, ball.x,ball.y+ball.radius+20,ball.x+20,ball.y+ball.radius);
+    }
+    if(numwrong>=4){
+        let arm2 = new limb();
+        arm2.draw(ctx, ball.x,ball.y+ball.radius+20,ball.x-20,ball.y+ball.radius);
+    }
+    if(numwrong>=5){
+        let chest = new limb();
+        chest.draw(ctx, ball.x,ball.y+ball.radius+20,ball.x,ball.y+ball.radius+55);
+    }
+    if(numwrong>=6){
+        let leg1 = new limb();
+        leg1.draw(ctx, ball.x,ball.y+ball.radius+55,ball.x+20,ball.y+ball.radius+80);
+    }
+    if(numwrong>=7){
+        let leg2 = new limb();
+        leg2.draw(ctx, ball.x,ball.y+ball.radius+55,ball.x-20,ball.y+ball.radius+80);
+    }
+    // updates how many guesses are left
+    let guesscounter=document.getElementById('guesses');
+    guesscounter.innerText='guesses left:'+ guesses;
+    if (guesses<=0){
+        alert("You lose! The word was "+chosen)
+        resetWord();
+        popup.style.display="block";
+}
+    }
+
+// sets the current word to null while a new one is being typed/chosen
+function resetWord (){
+    chosen=null;
+} 
+// randomely chooses a word from an array
+function random(){
+    hide();
+    let options=['BUNNY','CROCODILE','PHEONIX', 'AMERICA', 'TURTLE', 'ROCKET', 'CHEERLEADER', 'NEPTUNE', 'POPCORN', 'CEREAL', 'MUFFIN', 'PHONE', 'DOLLAR', 'BATTERY', 'LAUGH', 'RECYCLE', 'PHOTOGRAPH', 'FLOWER', 'SUNNY', 'PAPERCLIP'];
+    chosen=options[Math.floor(Math.random() * (options.length - 0) + 0)]
+    // https://www.geeksforgeeks.org/how-to-generate-random-number-in-given-range-using-javascript/
+    resetCanvas();
+}
+
+// sets the chosen word to the user input
+function typed(){
+    hide();
+    let typedWord = document.getElementById('playerword');
+            if(typedWord.value==''){
+                alert('You have to type in a word');
+                resetWord();
+                popup.style.display="block";
+                return;
+            }
+            chosen=typedWord.value;
+            typedWord.value='';
+            resetCanvas();
+}
+// hides pop-up bar
+function hide(){
+    popup.style.display="none";
+}
+// resets the canvas and all variables
+function resetCanvas() {
+            newArr=[];
+            update(newArr);
+            wrongguess=[];
+            numwrong=0;
+            guesses=7;
+            canvas = document.getElementById('paper');
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+
+            ctx = canvas.getContext('2d');
+            
+            ball.x=canvas.width/2,
+            ball.y=canvas.height/4,
+            drawPane();
+            updateman();
+            blanks();
+            addEventListener('keydown', check)
+                
+            }
+// draws the canvas and hanging post
+            function drawPane() {
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.rect(0,0, canvas.width, canvas.height);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(ball.x, ball.y-ball.radius);
+                ctx.lineTo(ball.x,ball.y-ball.radius-30);
+                ctx.lineTo(ball.x+40,ball.y-ball.radius-30);
+                ctx.lineTo(ball.x+40,ball.y+ball.radius+100);
+                ctx.stroke();
+                ctx.closePath();
+            }
+            window.onresize = resetCanvas;
+        
+</script>
+</body>
+</html>

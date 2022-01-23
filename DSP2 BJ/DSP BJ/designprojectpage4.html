@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<title>Question 4</title>
+<!-- CSS STARTS -->
+<style type='text/css'>
+    body {
+        margin: 0;
+    }
+
+    .header {
+        background-color: lightslategrey;
+        display: flex;
+        flex-direction: column;
+        grid-area: header;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .leftbar {
+        background-color: lightskyblue;
+        grid-area: leftbar;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+
+    .rightbar {
+        background-color: lightgreen;
+        grid-area: rightbar;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+
+    a {
+        text-decoration: none;
+        display: block;
+
+        padding: 1em;
+
+    }
+
+    a:hover {
+        background-color: white;
+
+
+    }
+
+    .link {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        width: 55%;
+    }
+
+    .linkheader {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: center;
+        font-weight: bold;
+        width: 70%;
+    }
+
+
+    .question {
+        color: white;
+        background-color: lightslategrey;
+        border-radius: 25px;
+        padding: 1.5em;
+        width: 30%;
+        display: block;
+        font-size: 14pt;
+        text-align: center;
+    }
+
+    .answer {
+        background-color: grey;
+        color: white;
+        display: block;
+        margin: 0.5em;
+        text-align: left;
+        font-weight: bold;
+        padding: 0.5em;
+
+        width: 50%;
+
+    }
+
+    .answer:hover {
+        background-color: blue;
+
+    }
+
+
+    .footer {
+
+        grid-area: footer;
+        background-image: linear-gradient(rgb(221, 226, 226), rgb(78, 81, 83));
+        display: block;
+        align-items: center;
+        justify-content: left;
+        flex-direction: row;
+        display: flex;
+
+    }
+
+
+
+    .title {
+        background-color: rgba(250, 2, 2, 0.582);
+        display: block;
+        width: 33%;
+        font-size: 22pt;
+        text-align: center;
+        color: white;
+    }
+
+
+
+    .container {
+        max-width: 100vw;
+        min-height: 100vh;
+
+        display: grid;
+        grid-template-columns: 0.8fr 3.2fr;
+        grid-template-rows: 1fr 4fr 1fr;
+        grid-template-areas:
+            "header  header"
+            "leftbar  rightbar"
+            "footer  footer";
+    }
+
+    .score {
+        grid-area: leftbar;
+        background-color: lightslategrey;
+        padding: 1.5em;
+        color: white;
+        border-radius: 25px;
+    }
+</style>
+<!--CSS ENDS-->
+
+</head>
+
+<body>
+    <!--HTML STARTS-->
+    <div class='container'>
+        <div class='header'>
+            <div class='title'>Global Warming Awareness</div>
+        </div>
+        <div class='leftbar'>
+            <div class='score'>Score: 0</div>
+            <div class='linkheader'> Awareness Websites: </div>
+            <div class='link'><a href='https://en.wikipedia.org/wiki/Global_warming'>Basic Knowledge</a></div>
+            <div class='link'><a href='https://climate.nasa.gov'>Climate NASA</a></div>
+            <div class='link'><a href='https://www.nytimes.com/2019/12/04/climate/climate-change-acceleration.html'>NY
+                    Times</a></div>
+        </div>
+        <div class='rightbar'>
+            <p class='question'> Since 1880, the average global temperature has: </p>
+            <div onclick='incorrectAnswer();' class='answera answer'> (A) Increased by about 10º F</div>
+            <div onclick='correctAnswer(event);' class='answerb answer'> (B) Increased by about 2º F </div>
+            <div onclick='incorrectAnswer();' class='answerc answer'> (C) Decreased by about 5º F </div>
+            <div onclick='incorrectAnswer();' class='answerd answer'> (D) Increased by about 5º C </div>
+
+        </div>
+        <div class='footer'>
+            <div class='changepage'><a href="scorepage.html"> Next </a></div>
+        </div>
+
+    </div>
+    <!--HTML ENDS-->
+
+    <!--JS STARTS-->
+    <script type='text/javascript'>
+        function init() {
+            let s = localStorage.getItem('score');
+            if (s !== null) {
+                score = s;
+                let scoreElement = document.getElementsByClassName('score')[0];
+                scoreElement.innerText = 'Score:' + score;
+            }
+            if (localStorage.getItem('page4done') != null) {
+                noCheat();
+            }
+        }
+
+        function correctAnswer(evt) {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+            evt.target.style.visibility = 'hidden';
+            updateScore();
+            alert("CORRECT: click next to move on")
+            localStorage.setItem('page4done', true);
+        }
+
+        function incorrectAnswer() {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+            alert("INCORRECT; correct answer is (A) Helium; Click next for next question")
+            localStorage.setItem('page4done', true);
+        }
+
+        function updateScore() {
+            score++
+            let scoreElement = document.getElementsByClassName('score')[0];
+            scoreElement.innerText = 'Score:' + score;
+            localStorage.setItem('score', score)
+        }
+
+        function noCheat() {
+            let elements = document.getElementsByClassName('answer');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+        }
+        window.onload = init
+    </script>
+    <!--JS ENDS-->
+
+
+
+</body>
+
+</html>

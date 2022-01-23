@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<title>Create Your Own Quiz</title>
+<meta charset='UTF-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<style type='text/css'>
+
+</style>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="createyourownquiz.css">
+
+    <h2>Custom Quiz:</h2>
+
+    <label class=quizname for="quizname">Quiz Title:</label><br>
+    <input id="quizname" value="Title..."><br><br>
+
+    <label for="question1">Question 1:</label><br>
+    <input id="question1" value="Question..."><br>
+
+    <label for="correctanswer">Answer 1:</label><br>
+    <input id="q1correctanswer" value="Correct Answer..."><br>
+
+    <label for="incorrectanswer">Answer 2:</label><br>
+    <input id="q1incorrectanswer1" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 3:</label><br>
+    <input id="q1incorrectanswer2" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 4:</label><br>
+    <input id="q1incorrectanswer3" value="Incorrect Answer..."><br><br><br>
+
+    <label for="question2">Question 2:</label><br>
+    <input id="question2" value="Question..."><br>
+
+    <label for="correctanswer">Answer 1:</label><br>
+    <input id="q2correctanswer" value="Correct Answer..."><br>
+
+    <label for="incorrectanswer">Answer 2:</label><br>
+    <input id="q2incorrectanswer1" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 3:</label><br>
+    <input id="q2incorrectanswer2" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 4:</label><br>
+    <input id="q2incorrectanswer3" value="Incorrect Answer..."><br><br><br>
+
+    <label for="question3">Question 3:</label><br>
+    <input id="question3" value="Question..."><br>
+
+    <label for="correctanswer">Answer 1:</label><br>
+    <input id="q3correctanswer" value="Correct Answer..."><br>
+
+    <label for="incorrectanswer">Answer 2:</label><br>
+    <input id="q3incorrectanswer1" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 3:</label><br>
+    <input id="q3incorrectanswer2" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 4:</label><br>
+    <input id="q3incorrectanswer3" value="Incorrect Answer..."><br><br><br>
+
+    <label for="question4">Question 4:</label><br>
+    <input id="question4" value="Question..."><br>
+
+    <label for="correctanswer">Answer 1:</label><br>
+    <input id="q4correctanswer" value="Correct Answer..."><br>
+
+    <label for="incorrectanswer">Answer 2:</label><br>
+    <input id="q4incorrectanswer1" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 3:</label><br>
+    <input id="q4incorrectanswer2" value="Incorrect Answer..."><br>
+
+    <label for="incorrectanswer">Answer 4:</label><br>
+    <input id="q4incorrectanswer3" value="Incorrect Answer..."><br><br><br>
+
+    <button class='submit' onclick='submitQuestions()'>Submit Questions</button>
+
+    <br><br><br>
+
+    <footer>
+        <div><a class='changepage' href="1landingpage.html">Back</a></div>
+        <div><a class='changepage' href="cyoqcolorpicker.html">Pick A Color Scheme</a></div>
+
+    </footer>
+
+    <script type='text/javascript'>
+        function submitQuestions() {
+            makeInvisible();
+            accessInputs();
+            alert("Questions Submitted")
+        }
+
+        function accessInputs() {
+            //Creating Varibles for JSON
+            quizname = document.getElementById('quizname').value
+            //QUESTION1
+            question1 = document.getElementById('question1').value
+            q1correctanswer = document.getElementById('q1correctanswer').value
+            q1incorrectanswer1 = document.getElementById('q1incorrectanswer1').value
+            q1incorrectanswer2 = document.getElementById('q1incorrectanswer2').value
+            q1incorrectanswer3 = document.getElementById('q1incorrectanswer3').value
+            //QUESTION2
+            question2 = document.getElementById('question2').value
+            q2correctanswer = document.getElementById('q2correctanswer').value
+            q2incorrectanswer1 = document.getElementById('q2incorrectanswer1').value
+            q2incorrectanswer2 = document.getElementById('q2incorrectanswer2').value
+            q2incorrectanswer3 = document.getElementById('q2incorrectanswer3').value
+            //QUESTION3
+            question3 = document.getElementById('question3').value
+            q3correctanswer = document.getElementById('q3correctanswer').value
+            q3incorrectanswer1 = document.getElementById('q3incorrectanswer1').value
+            q3incorrectanswer2 = document.getElementById('q3incorrectanswer2').value
+            q3incorrectanswer3 = document.getElementById('q3incorrectanswer3').value
+            //QUESTION4
+            question4 = document.getElementById('question4').value
+            q4correctanswer = document.getElementById('q4correctanswer').value
+            q4incorrectanswer1 = document.getElementById('q4incorrectanswer1').value
+            q4incorrectanswer2 = document.getElementById('q4incorrectanswer2').value
+            q4incorrectanswer3 = document.getElementById('q4incorrectanswer3').value
+
+            //JSON OBJECTS
+            let quizObject1 = {
+                name: quizname,
+                question: question1,
+                q1correct: q1correctanswer,
+                q1incorrect1: q1incorrectanswer1,
+                q1incorrect2: q1incorrectanswer2,
+                q1incorrect3: q1incorrectanswer3
+            }
+            console.log(quizObject1)
+
+            let quizObject2 = {
+                name: quizname,
+                question: question2,
+                q2correct: q2correctanswer,
+                q2incorrect1: q2incorrectanswer1,
+                q2incorrect2: q2incorrectanswer2,
+                q2incorrect3: q2incorrectanswer3
+            }
+
+            let quizObject3 = {
+                name: quizname,
+                question: question3,
+                q3correct: q3correctanswer,
+                q3incorrect1: q3incorrectanswer1,
+                q3incorrect2: q3incorrectanswer2,
+                q3incorrect3: q3incorrectanswer3
+            }
+
+            let quizObject4 = {
+                name: quizname,
+                question: question4,
+                q4correct: q4correctanswer,
+                q4incorrect1: q4incorrectanswer1,
+                q4incorrect2: q4incorrectanswer2,
+                q4incorrect3: q4incorrectanswer3
+            }
+
+
+            //Puts JSON into a String 
+            //Then Puts it in localStorage
+            localStorage.setItem('quizpart1', JSON.stringify(quizObject1));
+            localStorage.setItem('quizpart2', JSON.stringify(quizObject2));
+            localStorage.setItem('quizpart3', JSON.stringify(quizObject3));
+            localStorage.setItem('quizpart4', JSON.stringify(quizObject4));
+
+
+        }
+
+        function makeInvisible() {
+            let elements = document.getElementsByClassName('submit');
+            for (let element of elements) {
+                element.style.visibility = 'hidden';
+            }
+        }
+
+        function clearLocalStorage() {
+             
+        }
+    </script>
+
+
+</body>
+
+</html>

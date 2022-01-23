@@ -1,0 +1,55 @@
+div#header{
+    font-weight:bold;
+    font:22px;
+    text-align:center;
+    padding:0.5em;
+    color:mediumseagreen;
+    background-color:white;
+    padding:10px;
+    justify-content: center;
+    font-size: 22pt;
+ 
+}
+.name {
+    
+    font:20px;
+    text-align:center;
+    padding:0.1em;
+    color: white;
+    background-color: black;
+    padding:5px;
+    justify-content: center;
+    font-size: 15pt;
+}
+li.navitem{
+    color:lightskyblue;
+    margin:0;
+    display:inline-block; 
+    
+ 
+}
+ 
+ul#navbar{
+    background-color:white;
+    border-bottom: 5px solid black;
+    margin-top:0;
+}
+ 
+a{
+    color:lightskyblue;
+    text-decoration:none;
+}
+ 
+a.navlink{
+    color:mediumseagreen;
+    text-decoration: none;
+    display:inline-block;
+    padding:10px;
+}
+ 
+a:hover{
+    background-color:whitesmoke;
+    color:black;  
+ 
+}
+

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />   
+    <title>I am A Title</title>
+
+    
+    <style type = 'text/css'>
+
+        /*Sensible CSS*/
+        *{
+        box-sizing: border-box;
+        margin: 0;
+        }
+        /*Grid Set-Up*/
+        .container{
+        display: grid;
+        min-width: 100vw;
+        min-height: 100vh;
+        grid-template-columns: 1fr 4fr;
+        grid-template-rows: 0.5fr 0.25fr 3fr 0.25fr;
+        grid-template-areas: 
+            "header header"
+            "navbar navbar"
+            "main main"
+            "footer footer";
+        }
+        .header{
+            grid-area: header;
+
+        }
+
+        .navbar{
+            grid-area: navbar;
+        }
+        
+        .main{
+            grid-area: main;
+        }
+
+        .footer{
+            grid-area: footer;
+        }
+
+        
+
+    </style>    
+
+</head>
+
+<body>
+   
+    <div class = 'container'>
+        
+        <div id = 'header'>
+            
+        </div>
+        
+        <div id = 'navbar'>
+           
+        </div>
+        
+        <div id = 'main'>
+           
+        </div>
+        
+        <div class = 'footer'>
+            
+        </div>
+
+    </div>
+</body>
+</html>

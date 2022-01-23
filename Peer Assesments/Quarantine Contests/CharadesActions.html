@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!--  Comment in HTML    -->
+    <meta charset='UTF-8' />
+    <title>Charades: Actions</title>
+    <style type='text/css'>
+        /* Reset everything to sensible defaults */
+        * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+           font-size: 14pt;
+           font-family: 'Arial Narrow';
+       }
+ 
+       body {
+           display: grid;
+           grid-template-rows: 0.5fr 2fr 0.5fr;
+           grid-template-columns: 1fr 2fr;
+           grid-template-areas:
+               "nav empty"
+               "nav container"
+               "footer footer";
+           height: 100vh;
+           width: 100vw;
+           background-color: rgb(22, 151, 183);
+           box-sizing: border-box;
+ 
+       }
+ 
+       div#scoreboard {
+           display: flex;
+           flex-direction: column;
+           grid-column-start: 1;
+           grid-column-end: 2;
+           grid-row-start: 1;
+           grid-row-end: 3;
+           background-color: rgb(48, 195, 205);
+           box-sizing: border-box;
+ 
+       }
+ 
+       div#container {
+           /* display: inline-block; */
+           /* height: 100%;
+           width: 60%; */
+           grid-column-start: 2;
+           grid-column-end: 3;
+           grid-row-start: 1;
+           grid-row-end: 3;
+           box-sizing: border-box;
+           /* background-color:darkslateblue; */
+ 
+       }
+ 
+       div#charades {
+           grid-column-start: 1;
+           grid-column-end: 2;
+           grid-row-start: 1;
+           grid-row-end: 2;
+           /* display: block; */
+           height: 20%;
+           width: 100%;
+           background-color: rgb(22, 151, 183);
+           box-sizing: border-box;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+       }
+ 
+       div.round {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           width: 100%;
+           height: 10%;
+           background-color: rgb(48, 195, 205);
+           box-sizing: border-box;
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+       }
+ 
+       div#round1 {
+           grid-column-start: 2;
+       }
+ 
+       div#round1grid {
+           display: grid;
+           grid-template-rows: 1fr 1fr;
+           grid-template-columns: 1fr 1fr;
+           grid-template-areas:
+               "team score"
+               "team score";
+ 
+       }
+ 
+       div#round2grid {
+           display: grid;
+           grid-template-rows: 1fr 1fr;
+           grid-template-columns: 1fr 1fr;
+           grid-template-areas:
+               "team score"
+               "team score";
+       }
+ 
+       div#round3grid {
+           display: grid;
+           grid-template-rows: 1fr 1fr;
+           grid-template-columns: 1fr 1fr;
+           grid-template-areas:
+               "team score"
+               "team score";
+ 
+       }
+ 
+ 
+       div.team {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           width: 100%;
+           height: 100%;
+           background-color: rgb(243, 173, 120);
+           box-sizing: border-box;
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+       }
+ 
+       div.score {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           width: 100%;
+           height: 100%;
+           background-color: rgb(232, 128, 76);
+           box-sizing: border-box;
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+       }
+       div.total{
+           display:flex;
+           justify-content: center;
+           align-items: center;
+           background-color:rgb(22, 151, 183);
+
+
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+           border-bottom-style: solid;
+           height:10%;
+    
+       }
+       div#totalscore1{
+           height: 100%;
+           width:10%;
+
+           display:flex;
+           justify-content: center;
+           align-items: center;
+       }
+       div#totalscore2{
+           height: 100%;
+           width:10%;
+
+           display:flex;
+           justify-content: center;
+           align-items: center;
+       }
+       div#back{
+           height: 10%;
+           width: 100%;
+          
+           display:flex;
+           justify-content: center;
+           align-items: center;
+           border-top-style: solid;
+           border-right-style: solid;
+           border-left-style: solid;
+           border-bottom-style: solid;
+       }
+       a {
+        height: 100%;
+           width: 100%;
+           background-color: white;
+        color:  black;
+           
+           display:flex;
+           justify-content: center;
+           align-items: center;
+           
+           text-decoration: none;
+       }
+       a:hover {
+        background-color:black;
+        color: white;
+       }
+ 
+       canvas#ballpen {
+           /* flex-grow: 1; */
+           /* display: inline-block; */
+           background-color: white;
+           width: 100%;
+           height: 100%;
+       }
+
+    </style>
+</head>
+
+<body>
+        <div id='scoreboard'>
+                <div id='charades'>Charades: Actions</div>
+                <div id='round1' class='round'>Round 1</div>
+                <div id='round1grid'>
+                    <div id = 't1r1' class='team'>Team 1</div>
+                    <!-- stands for team 1 round 1  -->
+                    <div id = 't1r1s' class='score' >0</div>
+                     <!-- stands for team 1 round 1 score  -->
+                    <div id = 't2r1'class='team'>Team 2</div>
+                    <!-- team 2 round 2 (works the same for the rest) -->
+                    <div id = 't2r1s'class='score' >0</div>
+                </div>
+                <div id='round2' class='round'>Round 2</div>
+                <div id='round2grid'>
+                    <div id = 't1r2' class='team'>Team 1</div>
+                    <div id = 't1r2s'class='score' >0</div>
+                    <div id = 't2r2'class='team'>Team 2</div>
+                    <div id = 't2r2s' class='score' >0</div>
+                </div>
+                <div id='round3' class='round'>Round 3</div>
+                <div id='round3grid'>
+                    <div id = 't1r3' class='team'>Team 1</div>
+                    <div id = 't1r3s'class='score'>0</div>
+                    <div id = 't2r3'class='team'>Team 2</div>
+                    <div id = 't2r3s'class='score'>0</div>
+                </div>
+                <div id='total1' class = 'total'>Team 1 Total Score: 
+                    <!-- stands for total score of team 1 -->
+                    <div id = totalscore1>0</div>
+                </div>
+            
+                <div id='total2' class = 'total'>Team 2 Total Score: 
+                    <div id = totalscore2>0</div>
+                </div>
+                <div id = 'back'>
+                <a href="CharadesHomepage.html">BACK</a>
+            </div>
+            </div>
+            <div id='container'> 
+                <canvas id='ballpen'></canvas>
+                <button onclick='skip();'> Skip</button>
+               
+         
+    </div>
+
+    <script type='text/javascript'>
+        
+        let num = 1;
+        // indicates what round a turn it is - for example team 1 round 1 num = 1, team 2's turn, round 1 num = 2
+        let team = 2;
+        // idicates which team is going
+        let team1score = 0;
+        // total team 1 score
+        let team2score = 0;
+        // total team 2 score
+        let score = 0;
+        // score of whichever team is currently going
+        let alertstart = 0;
+        // tells the first pop up of the game to go
+        
+         
+       
+    let actions = ['brushing your teeth', "taking a shower", "mowing the lawn", "shopping for groceries", "on a rollercoaster", "reading a book", "watching a scary movie", "playing soccer", "swimming", "washing the car", "ordering at a drive-thru", "hailing a taxi", "falling","Cooking", "Ice Skating", "Melting", "Sewing", "Fighting", "Brushing Your Teeth", "Jumping Rope", "Bouncing a Ball", "Shooting a Soccer Ball", "Getting Dressed", "Blowing a Kiss", "Reading a Book", "Writing", "Playing Baseball", "Playing Basketball", "Washing your Hair", "Making your Bed", "Washing the Dishes", "Gardening", "Fishing", "Dancing", "Washing the Car", "Rock Climbing", "Flaying a Kite", "Bowling", "Scuba Diving", "Camping", "Sewing", "Video Taping", "Playing Chess", "Ironing", "Baking", "Rowing", "Riding a Bike", "raking leaves", "Milking a Cow", "Trick-or-Treating", "Walking with Cruches", "Digging a Hole", "Karate", "Getting a Hair Cut", "Picking Apples", "Watching a Horor Movie", "Playing Piano", "Playing the Drums", "Jackhammering", "Playing the Flute", "Playing Cards", "Surfing", "Washing the Windows", "Skiing", "Drinking Water", "Driving a Car", "Eating", "Typing", "Texting", "Taking a Selfie"    ]
+
+let arrnum = Math.floor(Math.random() * actions.length); 
+        // the number of word in the array being shown
+
+        // Game Objects
+
+        let box = {
+            x: 0,
+            y: 0,
+            width: 20,
+            height: 10,
+            velX: 0,
+            velY: 0.05,
+            color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+
+            move: function () {
+                this.x = this.x + this.velX;
+                this.y = this.y + this.velY;
+            }
+// this is the object moving down the screen that the word is inside of (there to give the word a speed and direction)
+
+
+
+        }
+
+
+        // Creates all the objects and starts the game
+        function init() {
+            
+            if (alertstart == 0){
+            window.alert("Team 1 Starts the game - Press OK when ready (or press BACK to pick another theme)");
+            alertstart++;
+            document.getElementById("t1r1").style.backgroundColor = "white";
+            document.getElementById("t1r1s").style.backgroundColor = "white";
+            } 
+            let canvas = document.getElementById('ballpen');
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+
+            box.width = canvas.width;
+
+
+            window.addEventListener('keydown', handleSpacebar);
+
+            window.requestAnimationFrame(nextFrame);
+        }
+function skip (){
+    arrnum = Math.floor(Math.random() * actions.length);
+    if (arrnum > actions.length){
+        console.log ("hi");
+        console.log (arrnum);
+                    arrnum = 1;
+                   
+                //if arrnum becomes longer than the array it shows up undefined, so this makes sure that doesnt happen
+                }
+    // when you hit the skip botton it only changes the word, not the location of the word 
+    playGameTick(); 
+   
+}
+
+        function handleSpacebar(evt) {
+           
+// when the player hits the spacebar, it meams the other person guessed right so this is all the stuff that happends when aomeone guesses right 
+            let keyPressed = evt.which;
+
+            if (keyPressed == 32) {
+                box.y = 0 - box.height;
+                // returns box to top of screen (becuase the game chages the word, but the box just return to the top and comes down every time )
+                box.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                // changes boxes color randomly
+                box.velY += 0.05;
+                // speeds up box
+                arrnum = Math.floor(Math.random() * actions.length);
+                
+                // changes to another random word
+                let totalscore1 = document.getElementById ('totalscore1');
+                let totalscore2 = document.getElementById ('totalscore2');
+
+                if (arrnum > actions.length){
+                    arrnum = Math.floor(Math.random() * actions.length);
+                   
+                //if arrnum becomes longer than the array it shows up undefined, so this makes sure that doesnt happen
+                }
+                if(num == 1){
+                    score++;
+                    team1score++;
+                    let t1r1s = document.getElementById('t1r1s');
+                    t1r1s.innerText = score;
+                    
+                }
+                if(num == 2){
+                    score++;
+                    team2score++;
+                    let t2r1s = document.getElementById('t2r1s');
+                    t2r1s.innerText = score;
+                }
+                if(num == 3){
+                    score++;
+                    team1score++;
+                    let t1r2s = document.getElementById('t1r2s');
+                    t1r2s.innerText = score;
+                }
+                if(num == 4){
+                    score++;
+                    team2score++;
+                    let t2r2s = document.getElementById('t2r2s');
+                    t2r2s.innerText = score;
+                }
+                if(num == 5){
+                    score++;
+                    team1score++;
+                    let t1r3s = document.getElementById('t1r3s');
+                    t1r3s.innerText = score;
+                }
+                if(num == 6){
+                    score++;
+                    team2score++;
+                    let t2r3s = document.getElementById('t2r3s');
+                    t2r3s.innerText = score;
+                }
+                // changes the score for whatever round is happening 
+                totalscore1.innerText = team1score;
+                totalscore2.innerText = team2score;
+            }
+        }
+        
+        function playGameTick() {
+
+           
+            box.move();
+
+            handleCollision();
+
+        }
+
+        
+        function handleCollision() {
+            let canvas = document.getElementById('ballpen');
+            
+            if (box.y + box.height > canvas.height) {
+
+                // when box hits the bottom it means the turn is up so this is all that happens when a turn is up
+                score = 0;
+                num++;
+                arrnum++;
+                box.y = 0 - box.height;
+
+            
+                if (team == 1 && num !== 7) {
+                    window.alert("Team 1's Turn - Press OK to Start");
+                    team = 2;
+                    box.velY = 0.05;
+                } 
+                else if (team == 2 && num !== 7) {
+                    window.alert("Team 2's Turn - Press OK to Start");
+                    team = 1;
+                    box.velY = 0.05;
+                }
+                if (num == 2){
+                document.getElementById("t2r1").style.backgroundColor = "white";
+                document.getElementById("t2r1s").style.backgroundColor = "white";
+                document.getElementById("t1r1").style.backgroundColor = " #F3AD78";
+                document.getElementById("t1r1s").style.backgroundColor = "#E8804C";
+                }
+                if (num == 3){
+                document.getElementById("t1r2").style.backgroundColor = "white";
+                document.getElementById("t1r2s").style.backgroundColor = "white";
+                document.getElementById("t2r1").style.backgroundColor = " #F3AD78";
+                document.getElementById("t2r1s").style.backgroundColor = "#E8804C";
+                }
+                if (num == 4){
+                document.getElementById("t2r2").style.backgroundColor = "white";
+                document.getElementById("t2r2s").style.backgroundColor = "white";
+                document.getElementById("t1r2").style.backgroundColor = " #F3AD78";
+                document.getElementById("t1r2s").style.backgroundColor = "#E8804C";
+                }
+                if (num == 5){
+                document.getElementById("t1r3").style.backgroundColor = "white";
+                document.getElementById("t1r3s").style.backgroundColor = "white";
+                document.getElementById("t2r2").style.backgroundColor = " #F3AD78";
+                document.getElementById("t2r2s").style.backgroundColor = "#E8804C";
+                }
+                if (num == 6){
+                document.getElementById("t2r3").style.backgroundColor = "white";
+                document.getElementById("t2r3s").style.backgroundColor = "white";
+                document.getElementById("t1r3").style.backgroundColor = " #F3AD78";
+                document.getElementById("t1r3s").style.backgroundColor = "#E8804C";
+                }
+                // changes the color of the div based on what round and turn it is to indicate who is going
+
+
+                if (num == 7){
+                document.getElementById("t2r3").style.backgroundColor = " #F3AD78";
+                document.getElementById("t2r3s").style.backgroundColor = "#E8804C";
+                if (team1score > team2score){
+                    window.alert("Team 1 Wins!!");
+                    team1score = 0;
+                    team2score = 0;
+                }
+                else if (team1score < team2score){
+                    window.alert("Team 2 Wins!!");
+                    team1score = 0;
+                    team2score = 0;
+                }
+                else if (team1score == team2score){
+                    window.alert("Tie");
+                    team1score = 0;
+                    team2score = 0;
+                }
+                // resets everything
+                arrnum = 0;
+                alertstart = 0;
+                num = 1;
+                team = 2;
+                score = 0;
+                box.velY = 0.05;
+                
+                    let t1r1s = document.getElementById('t1r1s');
+                    t1r1s.innerText = score;
+                    let t2r1s = document.getElementById('t2r1s');
+                    t2r1s.innerText = score;
+                    let t1r2s = document.getElementById('t1r2s');
+                    t1r2s.innerText = score;
+                    let t2r2s = document.getElementById('t2r2s');
+                    t2r2s.innerText = score;
+                    let t1r3s = document.getElementById('t1r3s');
+                    t1r3s.innerText = score;
+                    let t2r3s = document.getElementById('t2r3s');
+                    t2r3s.innerText = score;
+            if (alertstart == 0){
+
+            window.alert("Team 1 Starts the game - Press OK when ready (or press BACK to pick another theme)");
+            alertstart++;
+            document.getElementById("t1r1").style.backgroundColor = "white";
+            document.getElementById("t1r1s").style.backgroundColor = "white";
+            } 
+                }
+            }
+            
+
+        }
+
+       
+        function nextFrame(timestamp) {
+            
+
+            playGameTick();
+            // draws the objects
+            
+            let canvas = document.getElementById('ballpen');
+            let ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "30px Arial";
+           
+            
+            ctx.fillText(actions[arrnum], box.x + (box.width / 2), box.y + (box.height / 2));
+            
+            ctx.fillStyle = box.color;
+            ctx.textAlign = "center";
+
+           
+
+            window.requestAnimationFrame(nextFrame);
+        }
+
+
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+
+</html>
